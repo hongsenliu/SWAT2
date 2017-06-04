@@ -1,0 +1,67 @@
+﻿@model SWAT.Models.tblswatsurvey
+
+@{
+    ViewBag.Title = "Details";
+}
+
+@section Scripts
+{
+  <script src="@Url.Content("~/Scripts/jquery-3.1.1.min.js")" type="text/javascript"></script>
+  <script src="@Url.Content("~/Scripts/Highcharts-4.0.1/js/highcharts.js")" type="text/javascript"></script>
+    @Scripts.Render("~/Content/session.js")
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblswatsurvey</h4>
+	<hr />
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Status)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Status)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StartTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EndTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblswatlocation.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblswatlocation.name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.userid1.Username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.userid1.Username)
+        </dd>
+
+    </dl>
+    @{Html.RenderAction("_PieChart", new { id = Model.ID});}
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

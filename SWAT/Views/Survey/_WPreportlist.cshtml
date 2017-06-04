@@ -1,0 +1,10 @@
+﻿@model SWAT.Models.tblswatsurvey
+
+@{
+    if(ViewBag.numWP > 0)
+    {
+        <p>
+            @Html.ActionLink("Water Points Report", "WPReport", new { id = Model.ID })
+        </p>
+    }
+ }

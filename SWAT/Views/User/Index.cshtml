@@ -1,0 +1,202 @@
+﻿@model IEnumerable<SWAT.Models.userid>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+@Html.Raw(ViewBag.ConnStr)
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Userid1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Username)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Password)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.eMail)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Notes)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SessionVars)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.secondaryId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.type)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.properties)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.targetName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotifStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotifCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotifReqCodeTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NotifActCodeTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PMEmailNotificationsEnabled)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UseOntarioMaps)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.First_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Last_Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.utmX)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.utmY)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Joined)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Interests)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Workplace)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecretQuestion)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecretAnswer)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.AvatarUserPhotoID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastSuggestedContentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FullName)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Userid1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Username)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.eMail)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Notes)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SessionVars)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.secondaryId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.type)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.properties)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.targetName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotifStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotifCode)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotifReqCodeTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NotifActCodeTime)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PMEmailNotificationsEnabled)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UseOntarioMaps)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.First_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Last_Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.utmX)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.utmY)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Joined)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Interests)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Workplace)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecretQuestion)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecretAnswer)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AvatarUserPhotoID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastSuggestedContentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FullName)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

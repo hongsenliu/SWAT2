@@ -1,0 +1,36 @@
+﻿@model SWAT.Models.tblswatwpswpr
+
+<p>
+    @ViewBag.Question31
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedStore", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedStore)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question32
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedLeak", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedLeak)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question33
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedShare", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedShare)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question34
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedAnimals", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedAnimals)
+</div>

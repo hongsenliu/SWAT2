@@ -1,0 +1,61 @@
+﻿@model SWAT.Models.tblswatsurvey
+
+@{
+    ViewBag.Title = "WPReport";
+}
+
+@section Scripts
+{
+  <script src="@Url.Content("~/Scripts/Highcharts-4.0.1/js/highcharts.js")" type="text/javascript"></script>
+  <script src="http://code.highcharts.com/modules/exporting.js"></script>
+  @Scripts.Render("~/Content/WPReport.js")
+}
+
+<div>
+    <h4>Water Points Report - @Model.tblswatlocation.name</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        
+        <dt>
+            Assessment Time
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.StartTime)
+        </dd>
+
+        <dt>
+            Community
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblswatlocation.name)
+        </dd>
+
+    </dl>
+    @Html.HiddenFor(model => model.ID)
+    <p>
+        @Html.ActionLink("Survey Report", "Report", new { id = Model.ID })
+    </p>
+    <p>
+        <b>Please choose a water point:</b>
+    </p>
+    @Html.DropDownList("wpList")
+    @*<div id="allloading">
+        <img src="~/Content/images/ajaxloader.gif" />
+    </div>*@
+    <div id="wpReport"></div>
+
+    <br />
+    <p>
+        <b>Please choose a metric:</b>
+    </p>
+    @Html.DropDownList("metricList")
+    @*<div id="metricloading">
+        <img src="~/Content/images/ajaxloader.gif" />
+    </div>*@
+    <div id="wpDetailsReport"></div>
+</div>
+<p>
+    <a href="/">Back to Survey List</a>
+</p>

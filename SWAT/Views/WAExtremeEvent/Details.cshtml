@@ -1,0 +1,50 @@
+﻿@model SWAT.Models.tblswatwaextremeevent
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblSWATWAextremeEvent</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.lkpswatextremeeventslu.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lkpswatextremeeventslu.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lkpswatextremeeventslu1.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lkpswatextremeeventslu1.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lkpswatextremeeventslu2.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lkpswatextremeeventslu2.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblswatsurvey.ID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,222 @@
+﻿@model SWAT.Models.userid
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<fieldset>
+    <legend>userid</legend>
+     
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Userid1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Userid1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Username)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Username)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Password)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Password)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.eMail)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.eMail)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Notes)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Notes)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SessionVars)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SessionVars)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.secondaryId)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.secondaryId)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.type)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.type)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.properties)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.properties)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.targetName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.targetName)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NotifStatus)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NotifStatus)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NotifCode)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NotifCode)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NotifReqCodeTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NotifReqCodeTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.NotifActCodeTime)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.NotifActCodeTime)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.PMEmailNotificationsEnabled)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PMEmailNotificationsEnabled)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.UseOntarioMaps)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.UseOntarioMaps)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.First_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.First_Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Last_Name)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Last_Name)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Address)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Address)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.utmX)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.utmX)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.utmY)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.utmY)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Joined)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Joined)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Interests)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Interests)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.Workplace)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Workplace)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SecretQuestion)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SecretQuestion)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.SecretAnswer)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SecretAnswer)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.AvatarUserPhotoID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.AvatarUserPhotoID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.LastSuggestedContentDate)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastSuggestedContentDate)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.FullName)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.FullName)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Delete" /> |
+        @Html.ActionLink("Back to List", "Index")
+    </p>
+}

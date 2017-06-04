@@ -1,0 +1,339 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwpswpr>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatwpoverview.wpname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu2.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu3.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu4.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu5.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu6.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu7.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu8.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu9.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu10.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu11.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu12.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu13.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu14.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu15.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu16.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu17.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu18.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu19.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu20.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu21.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu22.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu23.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu24.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu25.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu26.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu27.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu28.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu29.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu30.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu31.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu32.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu33.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu34.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu35.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatpipedsuitabilitylu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatpipedcost1lu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatpipedcost2lu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatpipedcost3lu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedRevenue)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedExpenditure)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedBalance)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu36.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatpipedagelu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuture1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuture2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuture3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuturePop1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuturePop2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.pipedFuturePop3)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatwpoverview.wpname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu2.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu3.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu4.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu5.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu6.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu7.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu8.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu9.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu10.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu11.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu12.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu13.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu14.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu15.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu16.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu17.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu18.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu19.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu20.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu21.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu22.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu23.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu24.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu25.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu26.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu27.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu28.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu29.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu30.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu31.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu32.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu33.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu34.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu35.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatpipedsuitabilitylu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatpipedcost1lu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatpipedcost2lu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatpipedcost3lu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedRevenue)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedExpenditure)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedBalance)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu36.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatpipedagelu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuture1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuture2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuture3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuturePop1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuturePop2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.pipedFuturePop3)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

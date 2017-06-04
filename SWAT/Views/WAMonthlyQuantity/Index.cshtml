@@ -1,0 +1,105 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwamonthlyquantity>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu2.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu3.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu4.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu5.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu6.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu7.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu8.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu9.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu10.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatermonthlu11.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu2.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu3.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu4.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu5.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu6.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu7.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu8.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu9.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu10.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatermonthlu11.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatsurvey.ID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

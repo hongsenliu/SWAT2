@@ -1,0 +1,42 @@
+﻿@model SWAT.Models.tblswatwaannualprecip
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>tblSWATWAannualPrecip</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.precipVar)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.precipVar)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.lkpswatprecipvaraltlu.Description)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.lkpswatprecipvaraltlu.Description)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblswatsurvey.ID)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

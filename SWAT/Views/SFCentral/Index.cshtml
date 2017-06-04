@@ -1,0 +1,105 @@
+﻿@model IEnumerable<SWAT.Models.tblswatsfcentral>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.centralToilets)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpSWATcentralTreatmentTypeLU.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswat5ranklu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpSWATcentralConditionLU.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpSWATpubCleanLU.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.centralAccessGroup1)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.centralAccessGroup2)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.centralAccessGroup3)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu2.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpSWAThhCleanLU.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatsurvey.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.centralToilets)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpSWATcentralTreatmentTypeLU.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswat5ranklu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpSWATcentralConditionLU.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpSWATpubCleanLU.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.centralAccessGroup1)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.centralAccessGroup2)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.centralAccessGroup3)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu2.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpSWAThhCleanLU.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

@@ -1,0 +1,50 @@
+﻿@model SWAT.Models.tblswathppcom
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblswathppcom</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.tblswatsurvey.ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswat5ranklu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswat5ranklu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATsurvivorshipLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATsurvivorshipLU.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATmedicalTimeLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATmedicalTimeLU.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATmedicalCostLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATmedicalCostLU.Description)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

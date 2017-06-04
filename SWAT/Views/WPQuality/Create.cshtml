@@ -1,0 +1,98 @@
+﻿@model SWAT.Models.tblswatwpquality
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<h2>Create - Water Points Assessment</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Water Quality</legend>
+        @Html.HiddenFor(model => model.wpID, new { wpID = ViewBag.wpID })
+
+        <p>
+            @ViewBag.Question1
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("qualTreated", String.Empty)
+            @Html.ValidationMessageFor(model => model.qualTreated)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question2
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("userTreated", String.Empty)
+            @Html.ValidationMessageFor(model => model.userTreated)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question3
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("userTreatmentMethod", String.Empty)
+            @Html.ValidationMessageFor(model => model.userTreatmentMethod)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question4
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("faecalPathogens", String.Empty)
+            @Html.ValidationMessageFor(model => model.faecalPathogens)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question5
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("waterTaste", String.Empty)
+            @Html.ValidationMessageFor(model => model.waterTaste)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question6
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("waterOdour", String.Empty)
+            @Html.ValidationMessageFor(model => model.waterOdour)
+        </div>
+
+        <hr />
+        <p>
+            @ViewBag.Question7
+        </p>
+        <div class="editor-field">
+            @Html.DropDownList("waterTurbidity", String.Empty)
+            @Html.ValidationMessageFor(model => model.waterTurbidity)
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <p>
+                    <br />
+                    <input type="submit" value="Next" class="btn btn-default" />
+                </p>
+            </div>
+        </div>
+    </fieldset>
+}
+
+@*<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>*@
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/Content/WPQuality.js")
+}

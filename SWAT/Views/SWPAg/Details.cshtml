@@ -1,0 +1,71 @@
+﻿@model SWAT.Models.tblswatswpag
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblswatswpag</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.tblswatsurvey.ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.agType1)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.agType1)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.agType2)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.agType2)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswat5ranklu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswat5ranklu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswat5ranklu1.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswat5ranklu1.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATerosionLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATerosionLU.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATbestManagementLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATbestManagementLU.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpSWATcropLossLU.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpSWATcropLossLU.Description)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

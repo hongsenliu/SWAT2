@@ -1,0 +1,27 @@
+﻿@model SWAT.Models.tblswatwpswpr
+
+<p>
+    @ViewBag.Question1
+</p>
+<div class="editor-field">
+    @Html.DropDownList("surfaceFenced", String.Empty)
+    @Html.ValidationMessageFor(model => model.surfaceFenced)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question2
+</p>
+<div class="editor-field">
+    @Html.DropDownList("surfaceUphill", String.Empty)
+    @Html.ValidationMessageFor(model => model.surfaceUphill)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question3
+</p>
+<div class="editor-field">
+    @Html.DropDownList("surfaceHealth", String.Empty)
+    @Html.ValidationMessageFor(model => model.surfaceHealth)
+</div>

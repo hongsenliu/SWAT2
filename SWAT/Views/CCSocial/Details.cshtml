@@ -1,0 +1,50 @@
+﻿@model SWAT.Models.tblswatccsocial
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblSWATCCsocial</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.tblswatsurvey.ID)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswat5ranklu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswat5ranklu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswat5ranklu1.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswat5ranklu1.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.socCBO)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.socCBO)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.socAttend)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.socAttend)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

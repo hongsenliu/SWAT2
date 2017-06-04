@@ -1,0 +1,63 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwpoverview>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wpname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwpaloc.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wpausedom)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wpauseinst)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.wpauseec)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatsurvey.ID)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wpname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwpaloc.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wpausedom)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wpauseinst)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.wpauseec)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

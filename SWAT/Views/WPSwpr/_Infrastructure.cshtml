@@ -1,0 +1,148 @@
+﻿@model SWAT.Models.tblswatwpswpr
+
+
+<p>
+    @ViewBag.Question35
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedBreak", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedBreak)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question36
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedIllegal", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedIllegal)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question37
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedSuitability", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedSuitability)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question38
+</p>
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedCosts1)
+</div>
+<div class="editor-field">
+    @Html.DropDownList("pipedCosts1", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedCosts1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedCosts2)
+</div>
+<div class="editor-field">
+    @Html.DropDownList("pipedCosts2", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedCosts2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedCosts3)
+</div>
+<div class="editor-field">
+    @Html.DropDownList("pipedCosts3", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedCosts3)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question39
+</p>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedRevenue)
+    @Html.ValidationMessageFor(model => model.pipedRevenue)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question40
+</p>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedExpenditure)
+    @Html.ValidationMessageFor(model => model.pipedExpenditure)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question41
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedCapital", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedCapital)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question42
+</p>
+<div class="editor-field">
+    @Html.DropDownList("pipedAge", String.Empty)
+    @Html.ValidationMessageFor(model => model.pipedAge)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question43
+</p>
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuture1)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuture1)
+    @Html.ValidationMessageFor(model => model.pipedFuture1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuture2)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuture2)
+    @Html.ValidationMessageFor(model => model.pipedFuture2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuture3)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuture3)
+    @Html.ValidationMessageFor(model => model.pipedFuture3)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question44
+</p>
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuturePop1)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuturePop1)
+    @Html.ValidationMessageFor(model => model.pipedFuturePop1)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuturePop2)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuturePop2)
+    @Html.ValidationMessageFor(model => model.pipedFuturePop2)
+</div>
+
+<div class="editor-label">
+    @Html.LabelFor(model => model.pipedFuturePop3)
+</div>
+<div class="editor-field">
+    @Html.EditorFor(model => model.pipedFuturePop3)
+    @Html.ValidationMessageFor(model => model.pipedFuturePop3)
+</div>

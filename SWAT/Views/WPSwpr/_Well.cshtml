@@ -1,0 +1,45 @@
+﻿@model SWAT.Models.tblswatwpswpr
+
+<p>
+    @ViewBag.Question18
+</p>
+<div class="editor-field">
+    @Html.DropDownList("wellLatrine", String.Empty)
+    @Html.ValidationMessageFor(model => model.wellLatrine)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question19
+</p>
+<div class="editor-field">
+    @Html.DropDownList("wellUphill", String.Empty)
+    @Html.ValidationMessageFor(model => model.wellUphill)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question20
+</p>
+<div class="editor-field">
+    @Html.DropDownList("wellAnimals", String.Empty)
+    @Html.ValidationMessageFor(model => model.wellAnimals)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question21
+</p>
+<div class="editor-field">
+    @Html.DropDownList("wellPlatform", String.Empty)
+    @Html.ValidationMessageFor(model => model.wellPlatform)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question22
+</p>
+<div class="editor-field">
+    @Html.DropDownList("wellCover", String.Empty)
+    @Html.ValidationMessageFor(model => model.wellCover)
+</div>

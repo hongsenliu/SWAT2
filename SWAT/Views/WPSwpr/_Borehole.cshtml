@@ -1,0 +1,54 @@
+﻿@model SWAT.Models.tblswatwpswpr
+
+<p>
+    @ViewBag.Question12
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholeLatrine", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholeLatrine)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question13
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholeUphill", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholeUphill)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question14
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholeWellNear", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholeWellNear)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question15
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholeAnimals", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholeAnimals)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question16
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholePlatform", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholePlatform)
+</div>
+
+<hr />
+<p>
+    @ViewBag.Question17
+</p>
+<div class="editor-field">
+    @Html.DropDownList("boreholeSeal", String.Empty)
+    @Html.ValidationMessageFor(model => model.boreholeSeal)
+</div>

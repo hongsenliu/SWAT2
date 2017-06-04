@@ -1,0 +1,101 @@
+﻿@model SWAT.ViewModels.ChartsModel
+
+@{
+   ViewBag.Title = "Pie chart";
+}
+
+@*@(Model.ChartList)*@
+@{
+    int sectionCount = 1;
+    int wpCount = 1;    
+}
+<h4>Sections Progress</h4>
+@foreach (DotNet.Highcharts.Highcharts chart in Model.SectionChartList)
+{ 
+    <dl class="dl-horizontal">
+        <dt style="height:180px; width:360px">
+            @(chart)
+        </dt>
+        <dd>
+            @{
+                if (sectionCount == 1)
+                {
+                    @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "Location", new { id = (int)ViewBag.ctrlList[sectionCount-1], uid = (int)ViewBag.uid, SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    sectionCount = sectionCount + 1;
+                }
+                else if (sectionCount == 2)
+                {
+                    @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "WAPrecipitation", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    sectionCount = sectionCount + 1;
+                }
+                else if (sectionCount == 3)
+                {
+                    @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "CCEducation", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    sectionCount = sectionCount + 1;
+                }
+                else if (sectionCount == 4)
+                {
+                    if ((bool)ViewBag.swp)
+                    { 
+                        if((int)ViewBag.swpSection == 1)
+                        {
+                            @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "SWPLivestock", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                        }
+                        else if ((int)ViewBag.swpSection == 2)
+                        { 
+                            @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "SWPAg", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                        }    
+                        else if ((int)ViewBag.swpSection == 3)
+                        { 
+                            @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "SWPDev", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                        }   
+                    }
+                    else
+                    {
+                        @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "HPPCom", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    }
+                    sectionCount = sectionCount + 1;
+                }
+                else if (sectionCount == 5)
+                {
+                    if ((bool)ViewBag.swp)
+                    {
+                        @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "HPPCom", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    }
+                    else
+                    {
+                        @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "SFSanitation", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                    }
+                    sectionCount = sectionCount + 1;
+                }
+                else if (sectionCount == 6)
+                { 
+                    @Html.ActionLink((string)ViewBag.secDescription[sectionCount-1], "Edit", "SFSanitation", new { id = (int)ViewBag.ctrlList[sectionCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                }
+            }
+        </dd>
+    </dl>
+}
+
+@{
+    if (Model.WPChartList != null)
+    {
+        <hr />
+        <h4>Water Points Progress</h4>
+        foreach (DotNet.Highcharts.Highcharts chart in Model.WPChartList)
+        { 
+            <dl class="dl-horizontal">
+                <dt style="height:180px; width:360px">
+                    @(chart)
+                </dt>
+                <dd>
+                    @{
+                       @Html.ActionLink((string)ViewBag.wpName[wpCount-1], "Edit", "WaterPoint", new { id = (int)ViewBag.wpID[wpCount-1], SurveyID = (int)ViewBag.SurveyID }, new {@Style="float:left; margin-left:5px; margin-top:85px; font-size:16px; font-weight:bold;" })
+                       wpCount = wpCount + 1;
+                    }
+                </dd>
+            </dl>
+        }
+
+    }
+}

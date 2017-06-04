@@ -1,0 +1,71 @@
+﻿@model SWAT.Models.tblswatwpquality
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<fieldset>
+    <legend>tblSWATWPquality</legend>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.tblswatwpoverview.wpname)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.tblswatwpoverview.wpname)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatqualtreatedlu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatqualtreatedlu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatusertreatedlu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatusertreatedlu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatusertreatmentmethodlu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatusertreatmentmethodlu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatfaecalpathogenslu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatfaecalpathogenslu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatwatertasteodourlu1.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatwatertasteodourlu1.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatwatertasteodourlu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatwatertasteodourlu.Description)
+    </div>
+
+    <div class="display-label">
+         @Html.DisplayNameFor(model => model.lkpswatwaterturbiditylu.Description)
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.lkpswatwaterturbiditylu.Description)
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id=Model.ID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

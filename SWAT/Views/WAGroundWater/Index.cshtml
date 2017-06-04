@@ -1,0 +1,45 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwagroundwater>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatgwavailabilitylu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatyesnolu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatgwavailabilitylu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatyesnolu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatsurvey.ID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

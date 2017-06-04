@@ -1,0 +1,75 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwpquality>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatwpoverview.wpname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatqualtreatedlu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatusertreatedlu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatusertreatmentmethodlu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatfaecalpathogenslu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatertasteodourlu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwatertasteodourlu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatwaterturbiditylu.Description)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatwpoverview.wpname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatqualtreatedlu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatusertreatedlu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatusertreatmentmethodlu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatfaecalpathogenslu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatertasteodourlu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwatertasteodourlu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatwaterturbiditylu.Description)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>

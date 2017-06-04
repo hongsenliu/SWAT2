@@ -1,0 +1,69 @@
+﻿@model IEnumerable<SWAT.Models.tblswatwariskprep>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremepreplu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremepreplu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremepreplu2.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremerisklu.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremerisklu1.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.lkpswatextremerisklu2.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.tblswatsurvey.ID)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremepreplu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremepreplu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremepreplu2.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremerisklu.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremerisklu1.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.lkpswatextremerisklu2.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.tblswatsurvey.ID)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.ID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.ID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.ID })
+        </td>
+    </tr>
+}
+
+</table>
