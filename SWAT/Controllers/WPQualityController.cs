@@ -187,7 +187,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatwpquality tblswatwpquality)
+        public ActionResult Create(tblswatwpquality tblswatwpquality, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -197,19 +197,18 @@ namespace SWAT.Controllers
                     long recordId = recordIDs.First();
                     tblswatwpquality.ID = recordId;
                     db.Entry(tblswatwpquality).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwpquality);
-
-                    // return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpqualities.Include(t => t.tblSWATWPoverview).First(e => e.wpID == tblswatwpquality.wpID).tblSWATWPoverview.SurveyID });
-                    return RedirectToAction("Create", "WPSwpr", new { wpID = tblswatwpquality.wpID });
                 }
-
-                db.tblswatwpqualities.Add(tblswatwpquality);
+                else
+                {
+                    db.tblswatwpqualities.Add(tblswatwpquality);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwpquality);
 
-                return RedirectToAction("Create", "WPSwpr", new { wpID = tblswatwpquality.wpID});
-                // return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpqualities.Include(t => t.tblSWATWPoverview).First(e => e.wpID == tblswatwpquality.wpID).tblSWATWPoverview.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WPSwpr", new { wpID = tblswatwpquality.wpID });
+                }
             }
 
             ViewBag.faecalPathogens = new SelectList(db.lkpswatfaecalpathogenslus, "id", "Description", tblswatwpquality.faecalPathogens);
@@ -253,7 +252,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatwpquality tblswatwpquality)
+        public ActionResult Edit(tblswatwpquality tblswatwpquality, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -261,19 +260,22 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwpquality);
 
-                var records = db.tblswatwpswprs.Where(e => e.wpID == tblswatwpquality.wpID);
-                if (!records.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwpswpr newEntry = new tblswatwpswpr();
-                    newEntry.wpID = tblswatwpquality.wpID;
-                    db.tblswatwpswprs.Add(newEntry);
-                    db.SaveChanges();
+                    var records = db.tblswatwpswprs.Where(e => e.wpID == tblswatwpquality.wpID);
+                    if (!records.Any())
+                    {
+                        tblswatwpswpr newEntry = new tblswatwpswpr();
+                        newEntry.wpID = tblswatwpquality.wpID;
+                        db.tblswatwpswprs.Add(newEntry);
+                        db.SaveChanges();
 
-                    long newId = newEntry.ID;
-                    return RedirectToAction("Edit", "WPSwpr", new { id = newId, wpID = newEntry.wpID });
+                        long newId = newEntry.ID;
+                        return RedirectToAction("Edit", "WPSwpr", new { id = newId, wpID = newEntry.wpID });
+                    }
+
+                    return RedirectToAction("Edit", "WPSwpr", new { id = records.First(e => e.wpID == tblswatwpquality.wpID).ID, wpID = tblswatwpquality.wpID });
                 }
-
-                return RedirectToAction("Edit", "WPSwpr", new { id = records.First(e => e.wpID == tblswatwpquality.wpID).ID, wpID = tblswatwpquality.wpID });
             }
             ViewBag.faecalPathogens = new SelectList(db.lkpswatfaecalpathogenslus, "id", "Description", tblswatwpquality.faecalPathogens);
             ViewBag.qualTreated = new SelectList(db.lkpswatqualtreatedlus, "id", "Description", tblswatwpquality.qualTreated);

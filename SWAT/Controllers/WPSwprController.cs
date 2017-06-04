@@ -739,7 +739,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatwpswpr tblswatwpswpr)
+        public ActionResult Create(tblswatwpswpr tblswatwpswpr, string submitBtn)
         {
             checkRevenue(tblswatwpswpr);
             if (ModelState.IsValid)
@@ -750,17 +750,18 @@ namespace SWAT.Controllers
                     long recordId = recordIDs.First();
                     tblswatwpswpr.ID = recordId;
                     db.Entry(tblswatwpswpr).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwpswpr);
-
-                    return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpswprs.Include(t => t.tblswatwpoverview).First(e => e.wpID == tblswatwpswpr.wpID).tblswatwpoverview.SurveyID });
                 }
-                db.tblswatwpswprs.Add(tblswatwpswpr);
+                else
+                {
+                    db.tblswatwpswprs.Add(tblswatwpswpr);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwpswpr);
-                
-                // return RedirectToAction("Index");
-                return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpswprs.Include(t => t.tblswatwpoverview).First(e => e.wpID == tblswatwpswpr.wpID).tblswatwpoverview.SurveyID });
+
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpswprs.Include(t => t.tblswatwpoverview).First(e => e.wpID == tblswatwpswpr.wpID).tblswatwpoverview.SurveyID });
+                }
             }
 
             ViewBag.pipedAge = new SelectList(db.lkpswatpipedagelus, "id", "Description", tblswatwpswpr.pipedAge);
@@ -878,7 +879,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatwpswpr tblswatwpswpr)
+        public ActionResult Edit(tblswatwpswpr tblswatwpswpr, string submitBtn)
         {
             checkRevenue(tblswatwpswpr);
 
@@ -888,8 +889,10 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwpswpr);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpswprs.Include(t => t.tblswatwpoverview).First(e => e.wpID == tblswatwpswpr.wpID).tblswatwpoverview.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = db.tblswatwpswprs.Include(t => t.tblswatwpoverview).First(e => e.wpID == tblswatwpswpr.wpID).tblswatwpoverview.SurveyID });
+                }
             }
             ViewBag.pipedAge = new SelectList(db.lkpswatpipedagelus, "id", "Description", tblswatwpswpr.pipedAge);
             ViewBag.pipedCosts1 = new SelectList(db.lkpswatpipedcost1lu, "id", "Description", tblswatwpswpr.pipedCosts1);

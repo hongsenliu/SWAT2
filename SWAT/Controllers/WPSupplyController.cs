@@ -659,7 +659,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatwpsupply tblswatwpsupply)
+        public ActionResult Create(tblswatwpsupply tblswatwpsupply, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -669,19 +669,18 @@ namespace SWAT.Controllers
                     long recordId = recordIDs.First();
                     tblswatwpsupply.ID = recordId;
                     db.Entry(tblswatwpsupply).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwpsupply);
-
-                    // return RedirectToAction("WaterPoints", "Survey", new { id = tblswatwpsupply.tblswatwpoverview.SurveyID });
-                    return RedirectToAction("Create", "WPQuality", new { wpID = tblswatwpsupply.ID });
                 }
-
-                db.tblswatwpsupplies.Add(tblswatwpsupply);
+                else
+                {
+                    db.tblswatwpsupplies.Add(tblswatwpsupply);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwpsupply);
 
-                // return RedirectToAction("WaterPoints", "Survey", new { id = tblswatwpsupply.tblswatwpoverview.SurveyID });
-                return RedirectToAction("Create", "WPQuality", new { wpID = tblswatwpsupply.ID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WPQuality", new { wpID = tblswatwpsupply.ID });
+                }
             }
 
             ViewBag.conflictWater = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatwpsupply.conflictWater);
@@ -784,7 +783,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatwpsupply tblswatwpsupply)
+        public ActionResult Edit(tblswatwpsupply tblswatwpsupply, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -792,21 +791,22 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwpsupply);
 
-                var records = db.tblswatwpqualities.Where(e => e.wpID == tblswatwpsupply.wpID);
-                if (!records.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwpquality newEntry = new tblswatwpquality();
-                    newEntry.wpID = tblswatwpsupply.wpID;
-                    db.tblswatwpqualities.Add(newEntry);
-                    db.SaveChanges();
+                    var records = db.tblswatwpqualities.Where(e => e.wpID == tblswatwpsupply.wpID);
+                    if (!records.Any())
+                    {
+                        tblswatwpquality newEntry = new tblswatwpquality();
+                        newEntry.wpID = tblswatwpsupply.wpID;
+                        db.tblswatwpqualities.Add(newEntry);
+                        db.SaveChanges();
 
-                    long newId = newEntry.ID;
-                    return RedirectToAction("Edit", "WPQuality", new { id = newId, wpID = newEntry.wpID });
+                        long newId = newEntry.ID;
+                        return RedirectToAction("Edit", "WPQuality", new { id = newId, wpID = newEntry.wpID });
+                    }
+
+                    return RedirectToAction("Edit", "WPQuality", new { id = records.First(e => e.wpID == tblswatwpsupply.wpID).ID, wpID = tblswatwpsupply.wpID });
                 }
-
-                return RedirectToAction("Edit", "WPQuality", new { id = records.First(e => e.wpID == tblswatwpsupply.wpID).ID, wpID = tblswatwpsupply.wpID });
-
-                // return RedirectToAction("WaterPoints", "Survey", new { id = tblswatwpsupply.tblswatwpoverview.SurveyID });
             }
             ViewBag.conflictWater = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatwpsupply.conflictWater);
             ViewBag.domdemoWaterFetch1 = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatwpsupply.domdemoWaterFetch1);

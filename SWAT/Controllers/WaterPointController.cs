@@ -102,7 +102,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatwpoverview tblswatwpoverview)
+        public ActionResult Create(tblswatwpoverview tblswatwpoverview, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -126,8 +126,10 @@ namespace SWAT.Controllers
 
                 addScores(tblswatwpoverview);
 
-                // return RedirectToAction("WaterPoints", "Survey", new { id = tblswatwpoverview.SurveyID });
-                return RedirectToAction("Create", "WPSupply", new { wpID = tblswatwpoverview.ID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WPSupply", new { wpID = tblswatwpoverview.ID });
+                }
             }
 
             ViewBag.wpaLoc = new SelectList(db.lkpswatwpalocs, "id", "Description", tblswatwpoverview.wpaLoc);
@@ -159,7 +161,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatwpoverview tblswatwpoverview)
+        public ActionResult Edit(tblswatwpoverview tblswatwpoverview, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -167,21 +169,23 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwpoverview);
 
-                var records = db.tblswatwpsupplies.Where(e => e.wpID == tblswatwpoverview.ID);
-                if (!records.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwpsupply newEntry = new tblswatwpsupply();
-                    newEntry.wpID = tblswatwpoverview.ID;
-                    db.tblswatwpsupplies.Add(newEntry);
-                    db.SaveChanges();
+                    var records = db.tblswatwpsupplies.Where(e => e.wpID == tblswatwpoverview.ID);
+                    if (!records.Any())
+                    {
+                        tblswatwpsupply newEntry = new tblswatwpsupply();
+                        newEntry.wpID = tblswatwpoverview.ID;
+                        db.tblswatwpsupplies.Add(newEntry);
+                        db.SaveChanges();
 
-                    long newId = newEntry.ID;
-                    return RedirectToAction("Edit", "WPSupply", new { id = newId, wpID = newEntry.wpID });
+                        long newId = newEntry.ID;
+                        return RedirectToAction("Edit", "WPSupply", new { id = newId, wpID = newEntry.wpID });
+                    }
+
+                    return RedirectToAction("Edit", "WPSupply", new { id = records.First(e => e.wpID == tblswatwpoverview.ID).ID, wpID = tblswatwpoverview.ID });
+
                 }
-
-                return RedirectToAction("Edit", "WPSupply", new { id = records.First(e => e.wpID == tblswatwpoverview.ID).ID, wpID = tblswatwpoverview.ID });
-
-                // return RedirectToAction("Index");
             }
             ViewBag.wpaLoc = new SelectList(db.lkpswatwpalocs, "id", "Description", tblswatwpoverview.wpaLoc);
             getQuestion();
