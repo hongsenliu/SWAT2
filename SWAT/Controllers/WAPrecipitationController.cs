@@ -88,7 +88,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation)
+        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -98,15 +98,18 @@ namespace SWAT.Controllers
                     var waprecipID = waprecipIDs.First();
                     tblswatwaprecipitation.ID = waprecipID;
                     db.Entry(tblswatwaprecipitation).State = EntityState.Modified;
+                }
+                else
+                {
+                    db.tblswatwaprecipitations.Add(tblswatwaprecipitation);
                     db.SaveChanges();
                     updateScores(tblswatwaprecipitation);
-                    return RedirectToAction("Create", "WAMonthlyQuantity", new { SurveyID = tblswatwaprecipitation.SurveyID });
                 }
 
-                db.tblswatwaprecipitations.Add(tblswatwaprecipitation);
-                db.SaveChanges();
-                updateScores(tblswatwaprecipitation);
-                return RedirectToAction("Create", "WAMonthlyQuantity", new { SurveyID = tblswatwaprecipitation.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAMonthlyQuantity", new { SurveyID = tblswatwaprecipitation.SurveyID });
+                }
             }
 
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
@@ -134,7 +137,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -142,23 +145,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwaprecipitation);
 
-                // If there is not any WAMonthlyQuantity with the current survey (SurveyID) then create one and redirecto to its edit link.
-                var tblswatwamonthlyquantity = db.tblswatwamonthlyquantities.Where(e => e.SurveyID == tblswatwaprecipitation.SurveyID);
-                if (!tblswatwamonthlyquantity.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwamonthlyquantity wamq = new tblswatwamonthlyquantity();
-                    wamq.SurveyID = tblswatwaprecipitation.SurveyID;
-                    db.tblswatwamonthlyquantities.Add(wamq);
-                    db.SaveChanges();
-                    int newWamqId = wamq.ID;
-                    return RedirectToAction("Edit", "WAMonthlyQuantity", new { id = newWamqId, SurveyID = wamq.SurveyID });
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "WAMonthlyQuantity", new { id = tblswatwamonthlyquantity.Single(e => e.SurveyID == tblswatwaprecipitation.SurveyID).ID, SurveyID = tblswatwaprecipitation.SurveyID });
-                }
+                    // If there is not any WAMonthlyQuantity with the current survey (SurveyID) then create one and redirecto to its edit link.
+                    var tblswatwamonthlyquantity = db.tblswatwamonthlyquantities.Where(e => e.SurveyID == tblswatwaprecipitation.SurveyID);
+                    if (!tblswatwamonthlyquantity.Any())
+                    {
+                        tblswatwamonthlyquantity wamq = new tblswatwamonthlyquantity();
+                        wamq.SurveyID = tblswatwaprecipitation.SurveyID;
+                        db.tblswatwamonthlyquantities.Add(wamq);
+                        db.SaveChanges();
+                        int newWamqId = wamq.ID;
+                        return RedirectToAction("Edit", "WAMonthlyQuantity", new { id = newWamqId, SurveyID = wamq.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WAMonthlyQuantity", new { id = tblswatwamonthlyquantity.Single(e => e.SurveyID == tblswatwaprecipitation.SurveyID).ID, SurveyID = tblswatwaprecipitation.SurveyID });
+                    }
 
-                //return RedirectToAction("Index");
+                }
             }
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
             return View(tblswatwaprecipitation);

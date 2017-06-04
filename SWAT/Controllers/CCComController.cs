@@ -74,7 +74,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatcccom tblswatcccom)
+        public ActionResult Create(tblswatcccom tblswatcccom, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -83,17 +83,19 @@ namespace SWAT.Controllers
                 {
                     tblswatcccom.ID = comIDs.First();
                     db.Entry(tblswatcccom).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatcccom);
-
-                    return RedirectToAction("Create", "CCExternal", new { SurveyID = tblswatcccom.SurveyID});
                 }
-
-                db.tblswatcccoms.Add(tblswatcccom);
+                else
+                {
+                    db.tblswatcccoms.Add(tblswatcccom);
+                }
+                
                 db.SaveChanges();
                 updateScores(tblswatcccom);
-
-                return RedirectToAction("Create", "CCExternal", new { SurveyID = tblswatcccom.SurveyID});
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCExternal", new { SurveyID = tblswatcccom.SurveyID });
+                }
+                
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;
@@ -124,7 +126,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatcccom tblswatcccom)
+        public ActionResult Edit(tblswatcccom tblswatcccom, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -132,20 +134,23 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatcccom);
 
-                var ccexternal = db.tblswatccexternalsupports.Where(e => e.SurveyID == tblswatcccom.SurveyID);
-                if (!ccexternal.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccexternalsupport tblswatccexternal = new tblswatccexternalsupport();
-                    tblswatccexternal.SurveyID = tblswatcccom.SurveyID;
-                    db.tblswatccexternalsupports.Add(tblswatccexternal);
-                    db.SaveChanges();
+                    var ccexternal = db.tblswatccexternalsupports.Where(e => e.SurveyID == tblswatcccom.SurveyID);
+                    if (!ccexternal.Any())
+                    {
+                        tblswatccexternalsupport tblswatccexternal = new tblswatccexternalsupport();
+                        tblswatccexternal.SurveyID = tblswatcccom.SurveyID;
+                        db.tblswatccexternalsupports.Add(tblswatccexternal);
+                        db.SaveChanges();
 
-                    int newExternalID = tblswatccexternal.ID;
+                        int newExternalID = tblswatccexternal.ID;
 
-                    return RedirectToAction("Edit", "CCExternal", new { id = newExternalID, SurveyID = tblswatccexternal.SurveyID });
+                        return RedirectToAction("Edit", "CCExternal", new { id = newExternalID, SurveyID = tblswatccexternal.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "CCExternal", new { id = ccexternal.Single(e => e.SurveyID == tblswatcccom.SurveyID).ID, SurveyID = tblswatcccom.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "CCExternal", new { id = ccexternal.Single(e => e.SurveyID == tblswatcccom.SurveyID).ID, SurveyID = tblswatcccom.SurveyID });
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;

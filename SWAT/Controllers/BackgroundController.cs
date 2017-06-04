@@ -262,13 +262,14 @@ namespace SWAT.Controllers
                 {
                     var backgrdID = backgrdIDs.First();
                     tblswatbackgroundinfo.ID = backgrdID;
-                    db.Entry(tblswatbackgroundinfo).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatbackgroundinfo);
-                    return RedirectToAction("Create", "WAPrecipitation", new { SurveyID = tblswatbackgroundinfo.SurveyID });
+                    db.Entry(tblswatbackgroundinfo).State = EntityState.Modified;                
+                }
+                else
+                {
+                    db.tblswatbackgroundinfoes.Add(tblswatbackgroundinfo);
                 }
 
-                db.tblswatbackgroundinfoes.Add(tblswatbackgroundinfo);
+                
                 db.SaveChanges();
                 updateScores(tblswatbackgroundinfo);
 
@@ -346,7 +347,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAgC,AreaAgH,AreaPaved,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAgC,AreaAgH,AreaPaved,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo, string submitBtn)
         {
             // Check if the sum of Forest(%), Agriculture(%), Infrastructure(%), Surface Water(%) and Wetlands(%) exceeds 100.
             var totalArea = tblswatbackgroundinfo.AreaForest.GetValueOrDefault(0)
@@ -373,22 +374,24 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatbackgroundinfo);
 
-                // If there is not a WAPreciptation with the current survey (SurveyID) then create one and redirecto to its edit link.
-                var waprecip = db.tblswatwaprecipitations.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
-                if (!waprecip.Any())
-                {
-                    tblswatwaprecipitation tblswatwaprecipitation = new tblswatwaprecipitation();
-                    tblswatwaprecipitation.SurveyID = tblswatbackgroundinfo.SurveyID;
-                    db.tblswatwaprecipitations.Add(tblswatwaprecipitation);
-                    db.SaveChanges();
-                    var newWAPreciptationID = tblswatwaprecipitation.ID;
-                    return RedirectToAction("Edit", "WAPrecipitation", new { id = tblswatwaprecipitation.ID, SurveyID = tblswatwaprecipitation.SurveyID });
+                if (submitBtn.Equals("Next"))
+                { 
+                    // If there is not a WAPreciptation with the current survey (SurveyID) then create one and redirecto to its edit link.
+                    var waprecip = db.tblswatwaprecipitations.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                    if (!waprecip.Any())
+                    {
+                        tblswatwaprecipitation tblswatwaprecipitation = new tblswatwaprecipitation();
+                        tblswatwaprecipitation.SurveyID = tblswatbackgroundinfo.SurveyID;
+                        db.tblswatwaprecipitations.Add(tblswatwaprecipitation);
+                        db.SaveChanges();
+                        var newWAPreciptationID = tblswatwaprecipitation.ID;
+                        return RedirectToAction("Edit", "WAPrecipitation", new { id = tblswatwaprecipitation.ID, SurveyID = tblswatwaprecipitation.SurveyID });
+                    }
+                    else 
+                    {
+                        return RedirectToAction("Edit", "WAPrecipitation", new { id = waprecip.Single(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ID, SurveyID = tblswatbackgroundinfo.SurveyID });
+                    }
                 }
-                else 
-                {
-                    return RedirectToAction("Edit", "WAPrecipitation", new { id = waprecip.Single(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ID, SurveyID = tblswatbackgroundinfo.SurveyID });
-                }
-                //return RedirectToAction("Index");
             }
             ViewBag.EcoregionID = new SelectList(db.lkpbiomes, "ID", "Description", tblswatbackgroundinfo.EcoregionID);
             ViewBag.ClimateID = new SelectList(db.lkpclimateclassifications, "ID", "CCType", tblswatbackgroundinfo.ClimateID);
