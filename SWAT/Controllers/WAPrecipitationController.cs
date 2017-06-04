@@ -42,6 +42,7 @@ namespace SWAT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
+            ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description");
             return View();
         }
 
@@ -87,7 +88,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwaprecipitation tblswatwaprecipitation)
+        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation)
         {
             if (ModelState.IsValid)
             {
@@ -108,6 +109,7 @@ namespace SWAT.Controllers
                 return RedirectToAction("Create", "WAMonthlyQuantity", new { SurveyID = tblswatwaprecipitation.SurveyID });
             }
 
+            ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
             return View(tblswatwaprecipitation);
         }
 
@@ -123,6 +125,7 @@ namespace SWAT.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
             return View(tblswatwaprecipitation);
         }
 
@@ -131,7 +134,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwaprecipitation tblswatwaprecipitation)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December,hasData")] tblswatwaprecipitation tblswatwaprecipitation)
         {
             if (ModelState.IsValid)
             {
@@ -157,6 +160,7 @@ namespace SWAT.Controllers
 
                 //return RedirectToAction("Index");
             }
+            ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
             return View(tblswatwaprecipitation);
         }
 

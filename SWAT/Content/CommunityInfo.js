@@ -22,7 +22,9 @@ function pplPerHH()
 function chkAreaPercent()
 {
     var forest = parseFloat(document.getElementById('admintblCommunityareaForest').value);
-    var ag = parseFloat(document.getElementById('admintblCommunityareaAg').value);
+    var agc = parseFloat(document.getElementById('admintblCommunityareaAgC').value);
+    var agh = parseFloat(document.getElementById('admintblCommunityareaAgH').value);
+    var paved = parseFloat(document.getElementById('admintblCommunityareaPaved').value);
     var areainf = parseFloat(document.getElementById('admintblCommunityareaInf').value);
     var sw = parseFloat(document.getElementById('admintblCommunityareaSW').value);
     var wet = parseFloat(document.getElementById('admintblCommunityareaWet').value);
@@ -54,10 +56,18 @@ function chkAreaPercent()
         document.getElementById('admintblCommunityareaInf').style.backgroundColor="red";
         alert("Percentage of infrastructure has to be >= 0 and <= 100.");
     }
-    else if(ag < 0 || ag > 100)
+    else if(agc < 0 || agc > 100)
     {
-        document.getElementById('admintblCommunityareaAg').style.backgroundColor="red";
-        alert("Percentage of agriculture has to be >= 0 and <= 100.");
+        document.getElementById('admintblCommunityareaAgC').style.backgroundColor="red";
+        alert("Percentage of commercial agriculture has to be >= 0 and <= 100.");
+    }
+    else if (agh < 0 || agh > 100) {
+        document.getElementById('admintblCommunityareaAgH').style.backgroundColor = "red";
+        alert("Percentage of hobby/subsistence agriculture has to be >= 0 and <= 100.");
+    }
+    else if (paved < 0 || paved > 100) {
+        document.getElementById('admintblCommunityareaPaved').style.backgroundColor = "red";
+        alert("Percentage of paved cover has to be >= 0 and <= 100.");
     }
     else if(forest < 0 || forest > 100)
     {
@@ -74,16 +84,20 @@ function chkAreaPercent()
         if((forest + ag + areainf + sw + wet) > 100)
         {
             document.getElementById('admintblCommunityareaForest').style.backgroundColor="red";
-            document.getElementById('admintblCommunityareaAg').style.backgroundColor="red";
+            document.getElementById('admintblCommunityareaAgC').style.backgroundColor = "red";
+            document.getElementById('admintblCommunityareaAgH').style.backgroundColor = "red";
+            document.getElementById('admintblCommunityareaPaved').style.backgroundColor = "red";
             document.getElementById('admintblCommunityareaInf').style.backgroundColor="red";
             document.getElementById('admintblCommunityareaSW').style.backgroundColor="red";
             document.getElementById('admintblCommunityareaWet').style.backgroundColor="red";
-            alert("Sum of percentages in Forest, Agriculture, Infrastructure, Source Water and Wetlands cannot be over 100.");
+            alert("Sum of percentages in Forest, Commercial Agriculture, Hobby/Subsistence Agriculture, Paved Cover, Infrastructure, Source Water and Wetlands cannot be over 100.");
         }
         else
         {
             document.getElementById('admintblCommunityareaForest').style.backgroundColor="white";
-            document.getElementById('admintblCommunityareaAg').style.backgroundColor="white";
+            document.getElementById('admintblCommunityareaAgC').style.backgroundColor = "white";
+            document.getElementById('admintblCommunityareaAgH').style.backgroundColor = "white";
+            document.getElementById('admintblCommunityareaPaved').style.backgroundColor = "white";
             document.getElementById('admintblCommunityareaInf').style.backgroundColor="white";
             document.getElementById('admintblCommunityareaSW').style.backgroundColor="white";
             document.getElementById('admintblCommunityareaWet').style.backgroundColor="white";

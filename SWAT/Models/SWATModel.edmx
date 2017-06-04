@@ -1198,6 +1198,14 @@ warning 6002: The table/view 'def.dba.lkpswatscorevarsectionlu' does not have a 
           <Property Name="Description" Type="varchar" MaxLength="254" />
           <Property Name="intorder" Type="int" />
         </EntityType>
+        <EntityType Name="lkpswatwaprecipitation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="254" />
+          <Property Name="intorder" Type="int" />
+        </EntityType>
         <EntityType Name="lkpswatwatactionplanlu">
           <Key>
             <PropertyRef Name="id" />
@@ -1428,7 +1436,7 @@ warning 6002: The table/view 'def.dba.lkpswatwpscoresubcomponentlu' does not hav
           <Property Name="isEconPris" Type="int" />
           <Property Name="Area" Type="float" />
           <Property Name="AreaForest" Type="float" />
-          <Property Name="AreaAg" Type="float" />
+          <Property Name="AreaAgC" Type="float" />
           <Property Name="AreaInf" Type="float" />
           <Property Name="AreaSw" Type="float" />
           <Property Name="AreaWet" Type="float" />
@@ -1442,6 +1450,8 @@ warning 6002: The table/view 'def.dba.lkpswatwpscoresubcomponentlu' does not hav
           <Property Name="PriorHealth" Type="int" />
           <Property Name="PriorFinances" Type="int" />
           <Property Name="PriorAccessible" Type="int" />
+          <Property Name="AreaAgH" Type="float" />
+          <Property Name="AreaPaved" Type="float" />
         </EntityType>
         <EntityType Name="tblswatcccom">
           <Key>
@@ -1919,6 +1929,7 @@ warning 6002: The table/view 'def.dba.lkpswatwpscoresubcomponentlu' does not hav
           <Property Name="October" Type="float" />
           <Property Name="November" Type="float" />
           <Property Name="December" Type="float" />
+          <Property Name="hasData" Type="int" />
         </EntityType>
         <EntityType Name="tblswatwariskprep">
           <Key>
@@ -3974,6 +3985,18 @@ warning 6002: The table/view 'def.dba.lkpswatwpscoresubcomponentlu' does not hav
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="tblswatwaprecipitation_lkpswatwaprecipitation_fk">
+          <End Role="lkpswatwaprecipitation" Type="Self.lkpswatwaprecipitation" Multiplicity="0..1" />
+          <End Role="tblswatwaprecipitation" Type="Self.tblswatwaprecipitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lkpswatwaprecipitation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblswatwaprecipitation">
+              <PropertyRef Name="hasData" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="tblswatwaprecipitation_tblswatsurvey_fk">
           <End Role="tblswatsurvey" Type="Self.tblswatsurvey" Multiplicity="1" />
           <End Role="tblswatwaprecipitation" Type="Self.tblswatwaprecipitation" Multiplicity="*" />
@@ -5321,6 +5344,7 @@ warning 6002: The table/view 'def.dba.lkpswatwpscoresubcomponentlu' does not hav
           <EntitySet Name="lkpswaturbandistancelu" EntityType="Self.lkpswaturbandistancelu" Schema="dba" store:Type="Tables" />
           <EntitySet Name="lkpswatusertreatedlu" EntityType="Self.lkpswatusertreatedlu" Schema="dba" store:Type="Tables" />
           <EntitySet Name="lkpswatusertreatmentmethodlu" EntityType="Self.lkpswatusertreatmentmethodlu" Schema="dba" store:Type="Tables" />
+          <EntitySet Name="lkpswatwaprecipitation" EntityType="Self.lkpswatwaprecipitation" Schema="dba" store:Type="Tables" />
           <EntitySet Name="lkpswatwatactionplanlu" EntityType="Self.lkpswatwatactionplanlu" Schema="dba" store:Type="Tables" />
           <EntitySet Name="lkpswatwatbudgetlu" EntityType="Self.lkpswatwatbudgetlu" Schema="dba" store:Type="Tables" />
           <EntitySet Name="lkpswatwatclassreplu" EntityType="Self.lkpswatwatclassreplu" Schema="dba" store:Type="Tables" />
@@ -6013,6 +6037,10 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
             <End Role="tblswatsurvey" EntitySet="tblswatsurvey" />
             <End Role="tblswatwamonthlyquantity" EntitySet="tblswatwamonthlyquantity" />
           </AssociationSet>
+          <AssociationSet Name="tblswatwaprecipitation_lkpswatwaprecipitation_fk" Association="Self.tblswatwaprecipitation_lkpswatwaprecipitation_fk">
+            <End Role="lkpswatwaprecipitation" EntitySet="lkpswatwaprecipitation" />
+            <End Role="tblswatwaprecipitation" EntitySet="tblswatwaprecipitation" />
+          </AssociationSet>
           <AssociationSet Name="tblswatwaprecipitation_tblswatsurvey_fk" Association="Self.tblswatwaprecipitation_tblswatsurvey_fk">
             <End Role="tblswatsurvey" EntitySet="tblswatsurvey" />
             <End Role="tblswatwaprecipitation" EntitySet="tblswatwaprecipitation" />
@@ -6565,6 +6593,7 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <EntitySet Name="lkpswaturbandistancelus" EntityType="SWATModel.lkpswaturbandistancelu" />
           <EntitySet Name="lkpswatusertreatedlus" EntityType="SWATModel.lkpswatusertreatedlu" />
           <EntitySet Name="lkpswatusertreatmentmethodlus" EntityType="SWATModel.lkpswatusertreatmentmethodlu" />
+          <EntitySet Name="lkpswatwaprecipitations" EntityType="SWATModel.lkpswatwaprecipitation" />
           <EntitySet Name="lkpswatwatactionplanlus" EntityType="SWATModel.lkpswatwatactionplanlu" />
           <EntitySet Name="lkpswatwatbudgetlus" EntityType="SWATModel.lkpswatwatbudgetlu" />
           <EntitySet Name="lkpswatwatclassreplus" EntityType="SWATModel.lkpswatwatclassreplu" />
@@ -6640,6 +6669,10 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <AssociationSet Name="tblswatbackgroundinfo_lkpclimateclassification_fk" Association="SWATModel.tblswatbackgroundinfo_lkpclimateclassification_fk">
             <End Role="lkpclimateclassification" EntitySet="lkpclimateclassifications" />
             <End Role="tblswatbackgroundinfo" EntitySet="tblswatbackgroundinfoes" />
+          </AssociationSet>
+          <AssociationSet Name="lkpcountry_lkpcurrency_fk" Association="SWATModel.lkpcountry_lkpcurrency_fk">
+            <End Role="lkpcurrency" EntitySet="lkpcurrencies" />
+            <End Role="lkpcountry" EntitySet="lkpcountries" />
           </AssociationSet>
           <AssociationSet Name="lkpcountry_lkpregion_fk" Association="SWATModel.lkpcountry_lkpregion_fk">
             <End Role="lkpregion" EntitySet="lkpregions" />
@@ -7100,6 +7133,10 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <AssociationSet Name="tblswatwpquality_lkpswatusertreatmentmethodlu_fk" Association="SWATModel.tblswatwpquality_lkpswatusertreatmentmethodlu_fk">
             <End Role="lkpswatusertreatmentmethodlu" EntitySet="lkpswatusertreatmentmethodlus" />
             <End Role="tblswatwpquality" EntitySet="tblswatwpqualities" />
+          </AssociationSet>
+          <AssociationSet Name="tblswatwaprecipitation_lkpswatwaprecipitation_fk" Association="SWATModel.tblswatwaprecipitation_lkpswatwaprecipitation_fk">
+            <End Role="lkpswatwaprecipitation" EntitySet="lkpswatwaprecipitations" />
+            <End Role="tblswatwaprecipitation" EntitySet="tblswatwaprecipitations" />
           </AssociationSet>
           <AssociationSet Name="tblswatccwatermanagement_lkpswatwatactionplanlu_fk" Association="SWATModel.tblswatccwatermanagement_lkpswatwatactionplanlu_fk">
             <End Role="lkpswatwatactionplanlu" EntitySet="lkpswatwatactionplanlus" />
@@ -7633,10 +7670,6 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
             <End Role="tblswatwpoverview" EntitySet="tblswatwpoverviews" />
             <End Role="tblswatwpswpr" EntitySet="tblswatwpswprs" />
           </AssociationSet>
-          <AssociationSet Name="lkpcountry_lkpcurrency_fk" Association="SWATModel.lkpcountry_lkpcurrency_fk">
-            <End Role="lkpcurrency" EntitySet="lkpcurrencies" />
-            <End Role="lkpcountry" EntitySet="lkpcountries" />
-          </AssociationSet>
         </EntityContainer>
         <EntityType Name="lkpbiome">
           <Key>
@@ -7666,10 +7699,10 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <Property Name="CurrencyID" Type="Int32" />
           <Property Name="RegionID" Type="Int32" />
           <Property Name="CommonName" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="lkpcurrency" Relationship="SWATModel.lkpcountry_lkpcurrency_fk" FromRole="lkpcountry" ToRole="lkpcurrency" />
           <NavigationProperty Name="lkpregion" Relationship="SWATModel.lkpcountry_lkpregion_fk" FromRole="lkpcountry" ToRole="lkpregion" />
           <NavigationProperty Name="lkpsubnationals" Relationship="SWATModel.lkpsubnational_lkpcountry_fk" FromRole="lkpcountry" ToRole="lkpsubnational" />
           <NavigationProperty Name="tblswatlocations" Relationship="SWATModel.tblswatlocation_lkpcountry_fk" FromRole="lkpcountry" ToRole="tblswatlocation" />
-          <NavigationProperty Name="lkpcurrency" Relationship="SWATModel.lkpcountry_lkpcurrency_fk" FromRole="lkpcountry" ToRole="lkpcurrency" />
         </EntityType>
         <EntityType Name="lkpcurrency">
           <Key>
@@ -8935,6 +8968,15 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <Property Name="intorder" Type="Int32" />
           <NavigationProperty Name="tblswatwpqualities" Relationship="SWATModel.tblswatwpquality_lkpswatusertreatmentmethodlu_fk" FromRole="lkpswatusertreatmentmethodlu" ToRole="tblswatwpquality" />
         </EntityType>
+        <EntityType Name="lkpswatwaprecipitation">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Description" Type="String" MaxLength="254" FixedLength="false" Unicode="false" />
+          <Property Name="intorder" Type="Int32" />
+          <NavigationProperty Name="tblswatwaprecipitations" Relationship="SWATModel.tblswatwaprecipitation_lkpswatwaprecipitation_fk" FromRole="lkpswatwaprecipitation" ToRole="tblswatwaprecipitation" />
+        </EntityType>
         <EntityType Name="lkpswatwatactionplanlu">
           <Key>
             <PropertyRef Name="id" />
@@ -9242,7 +9284,7 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <Property Name="isEconPris" Type="Int32" />
           <Property Name="Area" Type="Single" />
           <Property Name="AreaForest" Type="Single" />
-          <Property Name="AreaAg" Type="Single" />
+          <Property Name="AreaAgC" Type="Single" />
           <Property Name="AreaInf" Type="Single" />
           <Property Name="AreaSw" Type="Single" />
           <Property Name="AreaWet" Type="Single" />
@@ -9256,6 +9298,8 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <Property Name="PriorHealth" Type="Int32" />
           <Property Name="PriorFinances" Type="Int32" />
           <Property Name="PriorAccessible" Type="Int32" />
+          <Property Name="AreaAgH" Type="Single" />
+          <Property Name="AreaPaved" Type="Single" />
           <NavigationProperty Name="lkpbiome" Relationship="SWATModel.tblswatbackgroundinfo_lkpbiome_fk" FromRole="tblswatbackgroundinfo" ToRole="lkpbiome" />
           <NavigationProperty Name="lkpclimateclassification" Relationship="SWATModel.tblswatbackgroundinfo_lkpclimateclassification_fk" FromRole="tblswatbackgroundinfo" ToRole="lkpclimateclassification" />
           <NavigationProperty Name="lkpsoil" Relationship="SWATModel.tblswatbackgroundinfo_lkpsoil_fk" FromRole="tblswatbackgroundinfo" ToRole="lkpsoil" />
@@ -9909,6 +9953,8 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <Property Name="October" Type="Single" />
           <Property Name="November" Type="Single" />
           <Property Name="December" Type="Single" />
+          <Property Name="hasData" Type="Int32" />
+          <NavigationProperty Name="lkpswatwaprecipitation" Relationship="SWATModel.tblswatwaprecipitation_lkpswatwaprecipitation_fk" FromRole="tblswatwaprecipitation" ToRole="lkpswatwaprecipitation" />
           <NavigationProperty Name="tblswatsurvey" Relationship="SWATModel.tblswatwaprecipitation_tblswatsurvey_fk" FromRole="tblswatwaprecipitation" ToRole="tblswatsurvey" />
         </EntityType>
         <EntityType Name="tblswatwariskprep">
@@ -10310,6 +10356,18 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
             </Principal>
             <Dependent Role="tblswatbackgroundinfo">
               <PropertyRef Name="ClimateID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="lkpcountry_lkpcurrency_fk">
+          <End Type="SWATModel.lkpcurrency" Role="lkpcurrency" Multiplicity="0..1" />
+          <End Type="SWATModel.lkpcountry" Role="lkpcountry" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lkpcurrency">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="lkpcountry">
+              <PropertyRef Name="CurrencyID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -11690,6 +11748,18 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
             </Principal>
             <Dependent Role="tblswatwpquality">
               <PropertyRef Name="userTreatmentMethod" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="tblswatwaprecipitation_lkpswatwaprecipitation_fk">
+          <End Type="SWATModel.lkpswatwaprecipitation" Role="lkpswatwaprecipitation" Multiplicity="0..1" />
+          <End Type="SWATModel.tblswatwaprecipitation" Role="tblswatwaprecipitation" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="lkpswatwaprecipitation">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="tblswatwaprecipitation">
+              <PropertyRef Name="hasData" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -13289,18 +13359,6 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="lkpcountry_lkpcurrency_fk">
-          <End Type="SWATModel.lkpcurrency" Role="lkpcurrency" Multiplicity="0..1" />
-          <End Type="SWATModel.lkpcountry" Role="lkpcountry" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="lkpcurrency">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="lkpcountry">
-              <PropertyRef Name="CurrencyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -14626,6 +14684,15 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="lkpswatwaprecipitations">
+            <EntityTypeMapping TypeName="SWATModel.lkpswatwaprecipitation">
+              <MappingFragment StoreEntitySet="lkpswatwaprecipitation">
+                <ScalarProperty Name="intorder" ColumnName="intorder" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="lkpswatwatactionplanlus">
             <EntityTypeMapping TypeName="SWATModel.lkpswatwatactionplanlu">
               <MappingFragment StoreEntitySet="lkpswatwatactionplanlu">
@@ -14839,6 +14906,8 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <EntitySetMapping Name="tblswatbackgroundinfoes">
             <EntityTypeMapping TypeName="SWATModel.tblswatbackgroundinfo">
               <MappingFragment StoreEntitySet="tblswatbackgroundinfo">
+                <ScalarProperty Name="AreaPaved" ColumnName="AreaPaved" />
+                <ScalarProperty Name="AreaAgH" ColumnName="AreaAgH" />
                 <ScalarProperty Name="PriorAccessible" ColumnName="PriorAccessible" />
                 <ScalarProperty Name="PriorFinances" ColumnName="PriorFinances" />
                 <ScalarProperty Name="PriorHealth" ColumnName="PriorHealth" />
@@ -14852,7 +14921,7 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
                 <ScalarProperty Name="AreaWet" ColumnName="AreaWet" />
                 <ScalarProperty Name="AreaSw" ColumnName="AreaSw" />
                 <ScalarProperty Name="AreaInf" ColumnName="AreaInf" />
-                <ScalarProperty Name="AreaAg" ColumnName="AreaAg" />
+                <ScalarProperty Name="AreaAgC" ColumnName="AreaAgC" />
                 <ScalarProperty Name="AreaForest" ColumnName="AreaForest" />
                 <ScalarProperty Name="Area" ColumnName="Area" />
                 <ScalarProperty Name="isEconPris" ColumnName="isEconPris" />
@@ -15367,6 +15436,7 @@ FROM `lkpswatwpscoresubcomponentlu` AS `lkpswatwpscoresubcomponentlu`</DefiningQ
           <EntitySetMapping Name="tblswatwaprecipitations">
             <EntityTypeMapping TypeName="SWATModel.tblswatwaprecipitation">
               <MappingFragment StoreEntitySet="tblswatwaprecipitation">
+                <ScalarProperty Name="hasData" ColumnName="hasData" />
                 <ScalarProperty Name="December" ColumnName="December" />
                 <ScalarProperty Name="November" ColumnName="November" />
                 <ScalarProperty Name="October" ColumnName="October" />

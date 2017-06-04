@@ -171,6 +171,7 @@ namespace SWAT.Models
         public virtual DbSet<lkpswaturbandistancelu> lkpswaturbandistancelus { get; set; }
         public virtual DbSet<lkpswatusertreatedlu> lkpswatusertreatedlus { get; set; }
         public virtual DbSet<lkpswatusertreatmentmethodlu> lkpswatusertreatmentmethodlus { get; set; }
+        public virtual DbSet<lkpswatwaprecipitation> lkpswatwaprecipitations { get; set; }
         public virtual DbSet<lkpswatwatactionplanlu> lkpswatwatactionplanlus { get; set; }
         public virtual DbSet<lkpswatwatbudgetlu> lkpswatwatbudgetlus { get; set; }
         public virtual DbSet<lkpswatwatclassreplu> lkpswatwatclassreplus { get; set; }

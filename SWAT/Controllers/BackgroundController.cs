@@ -234,21 +234,25 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAg,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo)
+        public ActionResult Create([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAgC,AreaAgH,AreaPaved,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo, string submitBtn)
         {
-            // Check if the sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) exceeds 100.
+            // Check if the sum of Forest(%), Agriculture(%), Infrastructure(%), Surface Water(%) and Wetlands(%) exceeds 100.
             var totalArea = tblswatbackgroundinfo.AreaForest.GetValueOrDefault(0) 
-                            + tblswatbackgroundinfo.AreaAg.GetValueOrDefault(0) 
+                            + tblswatbackgroundinfo.AreaAgC.GetValueOrDefault(0)
+                            + tblswatbackgroundinfo.AreaAgH.GetValueOrDefault(0)
+                            + tblswatbackgroundinfo.AreaPaved.GetValueOrDefault(0)
                             + tblswatbackgroundinfo.AreaInf.GetValueOrDefault(0)
                             + tblswatbackgroundinfo.AreaSw.GetValueOrDefault(0) 
                             + tblswatbackgroundinfo.AreaWet.GetValueOrDefault(0);
             if (totalArea > 100)
             {
-                ModelState.AddModelError("AreaForest", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaAg", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaInf", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaSw", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaWet", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaForest", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaAgC", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaAgH", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaInf", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaSw", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaWet", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("Paved", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
             }
             
             if (ModelState.IsValid)
@@ -269,8 +273,10 @@ namespace SWAT.Controllers
                 updateScores(tblswatbackgroundinfo);
 
 
-
-                return RedirectToAction("Create", "WAPrecipitation", new { SurveyID = tblswatbackgroundinfo.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAPrecipitation", new { SurveyID = tblswatbackgroundinfo.SurveyID });
+                }
             }
 
             ViewBag.EcoregionID = new SelectList(db.lkpbiomes, "ID", "Description", tblswatbackgroundinfo.EcoregionID);
@@ -340,21 +346,25 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAg,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,ClimateID,SoilID,EcoregionID,WatershedID,AridityID,UrbanDistanceID,Population,numHouseholds,numChildren,PeoplePerHH,isEconAg,isEconLs,isEconDev,isEconPris,Area,AreaForest,AreaAgC,AreaAgH,AreaPaved,AreaInf,AreaSw,AreaWet,AreaNat,AreaProtID,AreaBmID,PriorQuality,PriorQuan,PriorSeasonal,PriorPolitics,PriorHealth,PriorFinances,PriorAccessible,PriorEquity")] tblswatbackgroundinfo tblswatbackgroundinfo)
         {
-            // Check if the sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) exceeds 100.
+            // Check if the sum of Forest(%), Agriculture(%), Infrastructure(%), Surface Water(%) and Wetlands(%) exceeds 100.
             var totalArea = tblswatbackgroundinfo.AreaForest.GetValueOrDefault(0)
-                            + tblswatbackgroundinfo.AreaAg.GetValueOrDefault(0)
+                            + tblswatbackgroundinfo.AreaAgC.GetValueOrDefault(0)
+                            + tblswatbackgroundinfo.AreaAgH.GetValueOrDefault(0)
+                            + tblswatbackgroundinfo.AreaPaved.GetValueOrDefault(0)
                             + tblswatbackgroundinfo.AreaInf.GetValueOrDefault(0)
                             + tblswatbackgroundinfo.AreaSw.GetValueOrDefault(0)
                             + tblswatbackgroundinfo.AreaWet.GetValueOrDefault(0);
             if (totalArea > 100)
             {
-                ModelState.AddModelError("AreaForest", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaAg", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaInf", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaSw", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
-                ModelState.AddModelError("AreaWet", "The sum of Forest(%), Agriculture(%), Infrastructure(%), Source Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaForest", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaAgC", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaAgH", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaInf", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaSw", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("AreaWet", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
+                ModelState.AddModelError("Paved", "The sum of Forest(%), Commercial Agriculture(%), Hobby/Subsistence Agriculture(%), Paved Cover(%), Infrastructure(%), Surface Water(%) and Wetlands(%) cannot exceed 100.");
             }
 
             if (ModelState.IsValid)

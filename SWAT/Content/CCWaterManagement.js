@@ -5,11 +5,18 @@
         if (waterCom == "There is no Water Committee")
         {
             $('#watAdminOther').prop('disabled', false);
+            for (i = 0; i < 5; i++) {
+                $('#watRecords' + (i + 1)).val("");
+                $('#watRecords' + (i+1)).prop('disabled', true);
+            }
         }
         else
         {
             $('#watAdminOther').val("");
             $('#watAdminOther').prop('disabled', true);
+            for (i = 0; i < 5; i++) {
+                $('#watRecords' + (i+1)).prop('disabled', false);
+            }
         }
 
         $('#watAdminOther').attr('cols', 80);

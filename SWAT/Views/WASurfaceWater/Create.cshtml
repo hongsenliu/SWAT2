@@ -1,10 +1,10 @@
 ﻿@model SWAT.Models.tblswatwasurfacewater
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Assessment";
 }
 
-<h2>Create - Water Availability</h2>
+<h2>New Assessment - Water Availability</h2>
 
 
 @using (Html.BeginForm()) 
@@ -18,7 +18,7 @@
         @Html.HiddenFor(model => model.SurveyID, new { SurveyID=ViewBag.SurveyID})
 
         <p>
-            NO Question?
+            What is the availability of surface water resources in your community?
         </p>
         <div class="form-group">
             @Html.LabelFor(model => model.runoff, new { @class = "control-label col-md-2" })
@@ -42,7 +42,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Next" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Save" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Next" class="btn btn-default" />
             </div>
         </div>
     </div>

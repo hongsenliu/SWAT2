@@ -1452,7 +1452,7 @@ namespace SWAT.Controllers
         //}
 
         // GET: /Survey/Create
-        public ActionResult Create(int UserID, int LocationID)
+        public ActionResult Create(int UserID, int LocationID, string submitBtn)
         {
             // Create a survey record
             tblswatsurvey tblswatsurvey = new tblswatsurvey();
@@ -1484,7 +1484,11 @@ namespace SWAT.Controllers
                         db.SaveChanges();
                     }
                 }
-                return RedirectToAction("Create", "Background", new { SurveyID = newSurveyID});
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "Background", new { SurveyID = newSurveyID });
+                }
+                return RedirectToAction("Edit", "Location", new { id = LocationID, uid = UserID, SurveyID = newSurveyID });
             }
 
             //ViewBag.LocationID = new SelectList(db.tblSWATLocations, "ID", "name");

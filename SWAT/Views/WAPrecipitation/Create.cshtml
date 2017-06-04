@@ -1,10 +1,15 @@
 ﻿@model SWAT.Models.tblswatwaprecipitation
 
 @{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "New Assessment";
 }
 
-<h2>Create - Water Availability</h2>
+@section Scripts
+{
+    <script src="@Url.Content("~/Content/WAPrecipitation.js")" type="text/javascript"></script>
+}
+
+<h2>New Assessment - Water Availability</h2>
 
 
 @using (Html.BeginForm()) 
@@ -15,111 +20,123 @@
         <h4>Climate and Rainwater - Part I</h4>
         <hr />
         <p>
-            What is the average monthly precipitation for each month? (mm)
+            Do you have average monthly precipitation data?
         </p>
-
-        @Html.ValidationSummary(true)
-        @Html.HiddenFor(model => model.SurveyID, new { SurveyID=ViewBag.SurveyID})
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.January, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.January)
-                @Html.ValidationMessageFor(model => model.January)
-            </div>
+        <div class="editor-field">
+            @Html.DropDownList("hasData", String.Empty)
         </div>
+        <div id="question2">
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.February, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.February)
-                @Html.ValidationMessageFor(model => model.February)
+
+            <hr />
+            <p>
+                What is the average monthly precipitation for each month (mm)?
+            </p>
+
+            @Html.ValidationSummary(true)
+            @Html.HiddenFor(model => model.SurveyID, new { SurveyID = ViewBag.SurveyID })
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.January, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.January)
+                    @Html.ValidationMessageFor(model => model.January)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.March, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.March)
-                @Html.ValidationMessageFor(model => model.March)
+            <div class="form-group">
+                @Html.LabelFor(model => model.February, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.February)
+                    @Html.ValidationMessageFor(model => model.February)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.April, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.April)
-                @Html.ValidationMessageFor(model => model.April)
+            <div class="form-group">
+                @Html.LabelFor(model => model.March, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.March)
+                    @Html.ValidationMessageFor(model => model.March)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.May, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.May)
-                @Html.ValidationMessageFor(model => model.May)
+            <div class="form-group">
+                @Html.LabelFor(model => model.April, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.April)
+                    @Html.ValidationMessageFor(model => model.April)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.June, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.June)
-                @Html.ValidationMessageFor(model => model.June)
+            <div class="form-group">
+                @Html.LabelFor(model => model.May, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.May)
+                    @Html.ValidationMessageFor(model => model.May)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.July, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.July)
-                @Html.ValidationMessageFor(model => model.July)
+            <div class="form-group">
+                @Html.LabelFor(model => model.June, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.June)
+                    @Html.ValidationMessageFor(model => model.June)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.August, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.August)
-                @Html.ValidationMessageFor(model => model.August)
+            <div class="form-group">
+                @Html.LabelFor(model => model.July, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.July)
+                    @Html.ValidationMessageFor(model => model.July)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.September, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.September)
-                @Html.ValidationMessageFor(model => model.September)
+            <div class="form-group">
+                @Html.LabelFor(model => model.August, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.August)
+                    @Html.ValidationMessageFor(model => model.August)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.October, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.October)
-                @Html.ValidationMessageFor(model => model.October)
+            <div class="form-group">
+                @Html.LabelFor(model => model.September, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.September)
+                    @Html.ValidationMessageFor(model => model.September)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.November, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.November)
-                @Html.ValidationMessageFor(model => model.November)
+            <div class="form-group">
+                @Html.LabelFor(model => model.October, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.October)
+                    @Html.ValidationMessageFor(model => model.October)
+                </div>
             </div>
-        </div>
 
-        <div class="form-group">
-            @Html.LabelFor(model => model.December, new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.December)
-                @Html.ValidationMessageFor(model => model.December)
+            <div class="form-group">
+                @Html.LabelFor(model => model.November, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.November)
+                    @Html.ValidationMessageFor(model => model.November)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.December, new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.December)
+                    @Html.ValidationMessageFor(model => model.December)
+                </div>
             </div>
         </div>
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Next" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Save" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Next" class="btn btn-default" />
             </div>
         </div>
     </div>

@@ -55,11 +55,11 @@ namespace SWAT.Controllers
             {
                 int? runoffOrder = db.lkpswatrunofflus.Find(tblswatwasurfacewater.runoff).intorder;
                 double? runoffScore = db.lkpswatscores_runoff.Single(e => e.intorder == runoffOrder).Description;
-                db.tblswatscores.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID && e.VarName == "runoffSCORE").Value = runoffScore;
+                db.tblswatscores.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID && e.VarName == "swAvailabilitySCORE").Value = runoffScore;
             }
             else
             {
-                db.tblswatscores.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID && e.VarName == "runoffSCORE").Value = null;
+                db.tblswatscores.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID && e.VarName == "swAvailabilitySCORE").Value = null;
             }
 
             if (tblswatwasurfacewater.surfaceVar != null)

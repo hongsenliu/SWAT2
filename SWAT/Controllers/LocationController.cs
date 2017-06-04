@@ -82,7 +82,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid)
+        public ActionResult Create([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -90,7 +90,7 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 //var LocationID = tblswatlocation.ID;
                 
-                return RedirectToAction("Create", "Survey", new { UserID = uid, LocationID = tblswatlocation.ID});
+                return RedirectToAction("Create", "Survey", new { UserID = uid, LocationID = tblswatlocation.ID, submitBtn = submitBtn});
             }
 
             ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name", tblswatlocation.countryID);
@@ -126,27 +126,30 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid, int SurveyID)
+        public ActionResult Edit([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid, int SurveyID, string submitBtn)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tblswatlocation).State = EntityState.Modified;
                 db.SaveChanges();
-                var BackgrdInfo = db.tblswatbackgroundinfoes.Where(item => item.SurveyID == SurveyID);
-                if (!BackgrdInfo.Any())
+
+                if (submitBtn.Equals("Next"))
                 {
-                    //tblSWATBackgroundinfo tblswatbackgroundinfo = new tblSWATBackgroundinfo();
-                    //tblswatbackgroundinfo.SurveyID = SurveyID;
-                    //db.tblSWATBackgroundinfoes.Add(tblswatbackgroundinfo);
-                    //db.SaveChanges();
-                    //var newBackgroundInfoID = tblswatbackgroundinfo.ID;
-                    return RedirectToAction("Create", "Background", new {SurveyID = SurveyID });
+                    var BackgrdInfo = db.tblswatbackgroundinfoes.Where(item => item.SurveyID == SurveyID);
+                    if (!BackgrdInfo.Any())
+                    {
+                        //tblSWATBackgroundinfo tblswatbackgroundinfo = new tblSWATBackgroundinfo();
+                        //tblswatbackgroundinfo.SurveyID = SurveyID;
+                        //db.tblSWATBackgroundinfoes.Add(tblswatbackgroundinfo);
+                        //db.SaveChanges();
+                        //var newBackgroundInfoID = tblswatbackgroundinfo.ID;
+                        return RedirectToAction("Create", "Background", new {SurveyID = SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "Background", new { id = BackgrdInfo.Select(item => item.ID).First(), SurveyID = SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "Background", new { id = BackgrdInfo.Select(item => item.ID).First(), SurveyID = SurveyID });
-                }
-                //return RedirectToAction("Details", "User", new { id=uid});
             }
             ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name", tblswatlocation.countryID);
             ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name", tblswatlocation.regionID);

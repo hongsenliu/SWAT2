@@ -177,10 +177,26 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AreaAg, "Agriculture (%)", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AreaAgC, "Commercial Agriculture (%)", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-                @Html.EditorFor(model => model.AreaAg)
-                @Html.ValidationMessageFor(model => model.AreaAg)
+                @Html.EditorFor(model => model.AreaAgC)
+                @Html.ValidationMessageFor(model => model.AreaAgC)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AreaAgH, "Hobby/Subsistence Agriculture (%)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AreaAgH)
+                @Html.ValidationMessageFor(model => model.AreaAgH)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AreaPaved, "Paved Cover (%)", new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AreaPaved)
+                @Html.ValidationMessageFor(model => model.AreaPaved)
             </div>
         </div>
 
@@ -193,7 +209,7 @@
         </div>
 
         <div class="form-group">
-            @Html.LabelFor(model => model.AreaSw, "Source Water (%)", new { @class = "control-label col-md-2" })
+            @Html.LabelFor(model => model.AreaSw, "Surface Water (%)", new { @class = "control-label col-md-2" })
             <div class="col-md-10">
                 @Html.EditorFor(model => model.AreaSw)
                 @Html.ValidationMessageFor(model => model.AreaSw)
@@ -309,7 +325,8 @@
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Save" class="btn btn-default" />
+                <input type="submit" name="submitBtn" value="Next" class="btn btn-default" />
             </div>
         </div>
     </div>

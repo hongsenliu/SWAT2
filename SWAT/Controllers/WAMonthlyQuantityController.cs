@@ -67,14 +67,20 @@ namespace SWAT.Controllers
                                         tblswatwamonthlyquantity.July, tblswatwamonthlyquantity.August, tblswatwamonthlyquantity.September,
                                         tblswatwamonthlyquantity.October, tblswatwamonthlyquantity.November, tblswatwamonthlyquantity.December
                                        };
-            int? wamqTot = null;
+            double? wamqTot = null;
             foreach (int? monthlyQuanity in monthlyQuantities)
             {
                 if (monthlyQuanity != null)
                 {
-                    if (db.lkpswatwatermonthlus.Find(monthlyQuanity).intorder < 3)
+                    //if (db.lkpswatwatermonthlus.Find(monthlyQuanity).intorder < 3)
+                    //{
+                    //    wamqTot = wamqTot.GetValueOrDefault(0) + 1;
+                    //}
+                    int? monthlyIntorder = db.lkpswatwatermonthlus.Find(monthlyQuanity).intorder;
+
+                    if (monthlyIntorder != null)
                     {
-                        wamqTot = wamqTot.GetValueOrDefault(0) + 1;
+                        wamqTot = wamqTot.GetValueOrDefault(0) + Double.Parse(db.lkpswatscores_precipvar.Single(e => e.intorder == monthlyIntorder).Description);
                     }
                 }
             }
