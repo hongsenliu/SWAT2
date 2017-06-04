@@ -73,7 +73,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,climateDryer,climateWetter,climateColder,climateHotter,climateSeasons")] tblswatwaclimatechange tblswatwaclimatechange)
+        public ActionResult Create([Bind(Include="ID,SurveyID,climateDryer,climateWetter,climateColder,climateHotter,climateSeasons")] tblswatwaclimatechange tblswatwaclimatechange, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -83,17 +83,19 @@ namespace SWAT.Controllers
                     int climateChangeId = climateChangeIDs.First();
                     tblswatwaclimatechange.ID = climateChangeId;
                     db.Entry(tblswatwaclimatechange).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwaclimatechange);
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Create", "WAExtremeEvent", new { SurveyID = tblswatwaclimatechange.SurveyID });
+                }
+                else
+                {
+                    db.tblswatwaclimatechanges.Add(tblswatwaclimatechange);
                 }
                 
-                db.tblswatwaclimatechanges.Add(tblswatwaclimatechange);
                 db.SaveChanges();
                 updateScores(tblswatwaclimatechange);
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "WAExtremeEvent", new { SurveyID = tblswatwaclimatechange.SurveyID });
+
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAExtremeEvent", new { SurveyID = tblswatwaclimatechange.SurveyID });
+                }
             }
 
             return View(tblswatwaclimatechange);
@@ -119,32 +121,33 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,climateDryer,climateWetter,climateColder,climateHotter,climateSeasons")] tblswatwaclimatechange tblswatwaclimatechange)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,climateDryer,climateWetter,climateColder,climateHotter,climateSeasons")] tblswatwaclimatechange tblswatwaclimatechange, string submitBtn)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tblswatwaclimatechange).State = EntityState.Modified;
                 db.SaveChanges();
                 updateScores(tblswatwaclimatechange);
-
-                // If there is not any WAExtremeEvent with the current survey (SurveyID) then create one and redirect to its edit link.
-                var extremeEvents = db.tblswatwaextremeevents.Where(e => e.SurveyID == tblswatwaclimatechange.SurveyID);
-                if (!extremeEvents.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwaextremeevent tblswatwaextremeevent = new tblswatwaextremeevent();
-                    tblswatwaextremeevent.SurveyID = tblswatwaclimatechange.SurveyID;
-                    db.tblswatwaextremeevents.Add(tblswatwaextremeevent);
-                    db.SaveChanges();
+                    // If there is not any WAExtremeEvent with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var extremeEvents = db.tblswatwaextremeevents.Where(e => e.SurveyID == tblswatwaclimatechange.SurveyID);
+                    if (!extremeEvents.Any())
+                    {
+                        tblswatwaextremeevent tblswatwaextremeevent = new tblswatwaextremeevent();
+                        tblswatwaextremeevent.SurveyID = tblswatwaclimatechange.SurveyID;
+                        db.tblswatwaextremeevents.Add(tblswatwaextremeevent);
+                        db.SaveChanges();
 
-                    int newExtremeEventID = tblswatwaextremeevent.ID;
-                    return RedirectToAction("Edit", "WAExtremeEvent", new { id = newExtremeEventID, SurveyID = tblswatwaextremeevent.SurveyID });
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "WAExtremeEvent", new { id = extremeEvents.Single(e => e.SurveyID == tblswatwaclimatechange.SurveyID).ID, SurveyID = tblswatwaclimatechange.SurveyID });
-                }
+                        int newExtremeEventID = tblswatwaextremeevent.ID;
+                        return RedirectToAction("Edit", "WAExtremeEvent", new { id = newExtremeEventID, SurveyID = tblswatwaextremeevent.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WAExtremeEvent", new { id = extremeEvents.Single(e => e.SurveyID == tblswatwaclimatechange.SurveyID).ID, SurveyID = tblswatwaclimatechange.SurveyID });
+                    }
 
-                //return RedirectToAction("Index");
+                }
             }
             return View(tblswatwaclimatechange);
         }

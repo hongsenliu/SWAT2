@@ -81,7 +81,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,gwAvailability,gwReliability")] tblswatwagroundwater tblswatwagroundwater)
+        public ActionResult Create([Bind(Include="ID,SurveyID,gwAvailability,gwReliability")] tblswatwagroundwater tblswatwagroundwater, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -91,17 +91,17 @@ namespace SWAT.Controllers
                     int groundWaterId = groundWaterIDs.First();
                     tblswatwagroundwater.ID = groundWaterId;
                     db.Entry(tblswatwagroundwater).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwagroundwater);
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCEducation", new { SurveyID = tblswatwagroundwater.SurveyID });
                 }
-
-                db.tblswatwagroundwaters.Add(tblswatwagroundwater);
+                else
+                {
+                    db.tblswatwagroundwaters.Add(tblswatwagroundwater);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwagroundwater);
-                return RedirectToAction("Create", "CCEducation", new { SurveyID = tblswatwagroundwater.SurveyID });
-                // return RedirectToAction("Index");
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCEducation", new { SurveyID = tblswatwagroundwater.SurveyID });
+                }
             }
 
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description", tblswatwagroundwater.gwAvailability);
@@ -131,7 +131,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,gwAvailability,gwReliability")] tblswatwagroundwater tblswatwagroundwater)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,gwAvailability,gwReliability")] tblswatwagroundwater tblswatwagroundwater, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -139,24 +139,26 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwagroundwater);
 
-                // If there is not any CCEducation with the current survey (SurveyID) then create one and redirect to its edit link.
-                var educations = db.tblswatccedus.Where(e => e.SurveyID == tblswatwagroundwater.SurveyID);
-                if (!educations.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccedu tblswatccedu = new tblswatccedu();
-                    tblswatccedu.SurveyID = tblswatwagroundwater.SurveyID;
-                    db.tblswatccedus.Add(tblswatccedu);
-                    db.SaveChanges();
+                    // If there is not any CCEducation with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var educations = db.tblswatccedus.Where(e => e.SurveyID == tblswatwagroundwater.SurveyID);
+                    if (!educations.Any())
+                    {
+                        tblswatccedu tblswatccedu = new tblswatccedu();
+                        tblswatccedu.SurveyID = tblswatwagroundwater.SurveyID;
+                        db.tblswatccedus.Add(tblswatccedu);
+                        db.SaveChanges();
 
-                    int newEducationID = tblswatccedu.ID;
-                    return RedirectToAction("Edit", "CCEducation", new { id = newEducationID, SurveyID = tblswatccedu.SurveyID });
+                        int newEducationID = tblswatccedu.ID;
+                        return RedirectToAction("Edit", "CCEducation", new { id = newEducationID, SurveyID = tblswatccedu.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCEducation", new { id = educations.Single(e => e.SurveyID == tblswatwagroundwater.SurveyID).ID, SurveyID = tblswatwagroundwater.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "CCEducation", new { id = educations.Single(e => e.SurveyID == tblswatwagroundwater.SurveyID).ID, SurveyID = tblswatwagroundwater.SurveyID });
-                }
-
-                //return RedirectToAction("Index");
+                
             }
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description", tblswatwagroundwater.gwAvailability);
             ViewBag.gwReliability = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatwagroundwater.gwReliability);

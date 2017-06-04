@@ -95,7 +95,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,extremeDry,extremeFlood,extremeOther,extremeOtherComment")] tblswatwaextremeevent tblswatwaextremeevent)
+        public ActionResult Create([Bind(Include="ID,SurveyID,extremeDry,extremeFlood,extremeOther,extremeOtherComment")] tblswatwaextremeevent tblswatwaextremeevent, string submitBtn)
         {
             if (tblswatwaextremeevent.extremeOther != null && tblswatwaextremeevent.extremeOther != 251)
             {
@@ -112,17 +112,18 @@ namespace SWAT.Controllers
                     int extremeEventId = extremeEventIDs.First();
                     tblswatwaextremeevent.ID = extremeEventId;
                     db.Entry(tblswatwaextremeevent).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwaextremeevent);
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Create", "WARiskPrep", new { SurveyID = tblswatwaextremeevent.SurveyID });
+                }
+                else
+                {
+                    db.tblswatwaextremeevents.Add(tblswatwaextremeevent);
                 }
 
-                db.tblswatwaextremeevents.Add(tblswatwaextremeevent);
                 db.SaveChanges();
                 updateScores(tblswatwaextremeevent);
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "WARiskPrep", new { SurveyID = tblswatwaextremeevent.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WARiskPrep", new { SurveyID = tblswatwaextremeevent.SurveyID });
+                }
             }
 
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeDry);
@@ -154,7 +155,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,extremeDry,extremeFlood,extremeOther,extremeOtherComment")] tblswatwaextremeevent tblswatwaextremeevent)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,extremeDry,extremeFlood,extremeOther,extremeOtherComment")] tblswatwaextremeevent tblswatwaextremeevent, string submitBtn)
         {
             if (tblswatwaextremeevent.extremeOther != null && tblswatwaextremeevent.extremeOther != 251)
             {
@@ -170,24 +171,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwaextremeevent);
 
-                // If there is not any WARiskPrep with the current survey (SurveyID) then create one and redirect to its edit link.
-                var riskPreps = db.tblswatwariskpreps.Where(e => e.SurveyID == tblswatwaextremeevent.SurveyID);
-                if (!riskPreps.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwariskprep tblswatwariskprep = new tblswatwariskprep();
-                    tblswatwariskprep.SurveyID = tblswatwaextremeevent.SurveyID;
-                    db.tblswatwariskpreps.Add(tblswatwariskprep);
-                    db.SaveChanges();
+                    // If there is not any WARiskPrep with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var riskPreps = db.tblswatwariskpreps.Where(e => e.SurveyID == tblswatwaextremeevent.SurveyID);
+                    if (!riskPreps.Any())
+                    {
+                        tblswatwariskprep tblswatwariskprep = new tblswatwariskprep();
+                        tblswatwariskprep.SurveyID = tblswatwaextremeevent.SurveyID;
+                        db.tblswatwariskpreps.Add(tblswatwariskprep);
+                        db.SaveChanges();
 
-                    int newRiskPrepID = tblswatwariskprep.ID;
-                    return RedirectToAction("Edit", "WARiskPrep", new { id = newRiskPrepID, SurveyID = tblswatwariskprep.SurveyID });
+                        int newRiskPrepID = tblswatwariskprep.ID;
+                        return RedirectToAction("Edit", "WARiskPrep", new { id = newRiskPrepID, SurveyID = tblswatwariskprep.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WARiskPrep", new { id = riskPreps.Single(e => e.SurveyID == tblswatwaextremeevent.SurveyID).ID, SurveyID = tblswatwaextremeevent.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "WARiskPrep", new { id = riskPreps.Single(e => e.SurveyID == tblswatwaextremeevent.SurveyID).ID, SurveyID = tblswatwaextremeevent.SurveyID });
-                }
-
-                //return RedirectToAction("Index");
             }
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeDry);
             ViewBag.extremeFlood = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeFlood);

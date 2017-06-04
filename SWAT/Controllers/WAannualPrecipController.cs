@@ -106,7 +106,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,precipVar,precipVarALT")] tblswatwaannualprecip tblswatwaannualprecip)
+        public ActionResult Create([Bind(Include="ID,SurveyID,precipVar,precipVarALT")] tblswatwaannualprecip tblswatwaannualprecip, string submitBtn)
         {
             
             if (ModelState.IsValid)
@@ -117,15 +117,19 @@ namespace SWAT.Controllers
                     int annualPrecipId = annualPrecipIds.First();
                     tblswatwaannualprecip.ID = annualPrecipId;
                     db.Entry(tblswatwaannualprecip).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwaannualprecip);
-                    return RedirectToAction("Create", "WAClimateChange", new { SurveyID = tblswatwaannualprecip.SurveyID});
                 }
-                db.tblswatwaannualprecips.Add(tblswatwaannualprecip);
+                else
+                {
+                    db.tblswatwaannualprecips.Add(tblswatwaannualprecip);
+                }
+
                 db.SaveChanges();
                 updateScores(tblswatwaannualprecip);
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "WAClimateChange", new { SurveyID = tblswatwaannualprecip.SurveyID });
+
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAClimateChange", new { SurveyID = tblswatwaannualprecip.SurveyID });
+                }
             }
 
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description", tblswatwaannualprecip.precipVarALT);
@@ -155,7 +159,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,precipVar,precipVarALT")] tblswatwaannualprecip tblswatwaannualprecip)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,precipVar,precipVarALT")] tblswatwaannualprecip tblswatwaannualprecip, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -163,24 +167,26 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwaannualprecip);
 
-                // If there is not any WAClimateChange with the current survey (SurveyID) then create one and redirecto to its edit link.
-                var climateChanges = db.tblswatwaclimatechanges.Where(e => e.SurveyID == tblswatwaannualprecip.SurveyID);
-                if (!climateChanges.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwaclimatechange tblswatwaclimatechange = new tblswatwaclimatechange();
-                    tblswatwaclimatechange.SurveyID = tblswatwaannualprecip.SurveyID;
-                    db.tblswatwaclimatechanges.Add(tblswatwaclimatechange);
-                    db.SaveChanges();
+                    // If there is not any WAClimateChange with the current survey (SurveyID) then create one and redirecto to its edit link.
+                    var climateChanges = db.tblswatwaclimatechanges.Where(e => e.SurveyID == tblswatwaannualprecip.SurveyID);
+                    if (!climateChanges.Any())
+                    {
+                        tblswatwaclimatechange tblswatwaclimatechange = new tblswatwaclimatechange();
+                        tblswatwaclimatechange.SurveyID = tblswatwaannualprecip.SurveyID;
+                        db.tblswatwaclimatechanges.Add(tblswatwaclimatechange);
+                        db.SaveChanges();
 
-                    int newClimateChangeID = tblswatwaclimatechange.ID;
-                    return RedirectToAction("Edit", "WAClimateChange", new { id = newClimateChangeID, SurveyID = tblswatwaclimatechange.SurveyID});
-                }
-                else
-                {
-                    return RedirectToAction("Edit", "WAClimateChange", new { id = climateChanges.Single(e => e.SurveyID == tblswatwaannualprecip.SurveyID).ID, SurveyID = tblswatwaannualprecip.SurveyID });
-                }
+                        int newClimateChangeID = tblswatwaclimatechange.ID;
+                        return RedirectToAction("Edit", "WAClimateChange", new { id = newClimateChangeID, SurveyID = tblswatwaclimatechange.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WAClimateChange", new { id = climateChanges.Single(e => e.SurveyID == tblswatwaannualprecip.SurveyID).ID, SurveyID = tblswatwaannualprecip.SurveyID });
+                    }
 
-                //return RedirectToAction("Index");
+                }
             }
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description", tblswatwaannualprecip.precipVarALT);
             ViewBag.SurveyID = new SelectList(db.tblswatsurveys, "ID", "ID", tblswatwaannualprecip.SurveyID);

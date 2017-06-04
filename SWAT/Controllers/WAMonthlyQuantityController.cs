@@ -100,7 +100,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwamonthlyquantity tblswatwamonthlyquantity)
+        public ActionResult Create([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwamonthlyquantity tblswatwamonthlyquantity, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -110,17 +110,18 @@ namespace SWAT.Controllers
                     var wamqID = wamqIDs.First();
                     tblswatwamonthlyquantity.ID = wamqID;
                     db.Entry(tblswatwamonthlyquantity).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwamonthlyquantity);
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Create", "WAannualPrecip", new { SurveyID = tblswatwamonthlyquantity.SurveyID });
                 }
-
-                db.tblswatwamonthlyquantities.Add(tblswatwamonthlyquantity);
+                else
+                {
+                    db.tblswatwamonthlyquantities.Add(tblswatwamonthlyquantity);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwamonthlyquantity);
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "WAannualPrecip", new { SurveyID = tblswatwamonthlyquantity.SurveyID });
+
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAannualPrecip", new { SurveyID = tblswatwamonthlyquantity.SurveyID });
+                }
             }
 
             ViewBag.August = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.August);
@@ -172,7 +173,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwamonthlyquantity tblswatwamonthlyquantity)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,January,February,March,April,May,June,July,August,September,October,November,December")] tblswatwamonthlyquantity tblswatwamonthlyquantity, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -180,23 +181,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwamonthlyquantity);
 
-                // If there is not any WAannualPrecip with the current survey (SurveyID) then create one and redirecto to its edit link.
-                var annualPrecips = db.tblswatwaannualprecips.Where(e => e.SurveyID == tblswatwamonthlyquantity.SurveyID);
-                if (!annualPrecips.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwaannualprecip tblswatwaannualprecip = new tblswatwaannualprecip();
-                    tblswatwaannualprecip.SurveyID = tblswatwamonthlyquantity.SurveyID;
-                    db.tblswatwaannualprecips.Add(tblswatwaannualprecip);
-                    db.SaveChanges();
+                    // If there is not any WAannualPrecip with the current survey (SurveyID) then create one and redirecto to its edit link.
+                    var annualPrecips = db.tblswatwaannualprecips.Where(e => e.SurveyID == tblswatwamonthlyquantity.SurveyID);
+                    if (!annualPrecips.Any())
+                    {
+                        tblswatwaannualprecip tblswatwaannualprecip = new tblswatwaannualprecip();
+                        tblswatwaannualprecip.SurveyID = tblswatwamonthlyquantity.SurveyID;
+                        db.tblswatwaannualprecips.Add(tblswatwaannualprecip);
+                        db.SaveChanges();
 
-                    int newWAannualPrecipID = tblswatwaannualprecip.ID;
-                    return RedirectToAction("Edit", "WAannualPrecip", new { id = newWAannualPrecipID, SurveyID = tblswatwaannualprecip.SurveyID });
+                        int newWAannualPrecipID = tblswatwaannualprecip.ID;
+                        return RedirectToAction("Edit", "WAannualPrecip", new { id = newWAannualPrecipID, SurveyID = tblswatwaannualprecip.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WAannualPrecip", new { id = annualPrecips.Single(e => e.SurveyID == tblswatwamonthlyquantity.SurveyID).ID, SurveyID = tblswatwamonthlyquantity.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "WAannualPrecip", new { id = annualPrecips.Single(e => e.SurveyID == tblswatwamonthlyquantity.SurveyID).ID, SurveyID = tblswatwamonthlyquantity.SurveyID });
-                }
-                // return RedirectToAction("Index");
             }
             ViewBag.August = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.August);
             ViewBag.September = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.September);
