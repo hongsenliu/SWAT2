@@ -85,7 +85,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,trainProf1,trainProf2,trainProf3,trainProf4,trainProf5,trainTech1,trainTech2,trainTech3,trainTech4,trainTech5")] tblswatcctrain tblswatcctrain)
+        public ActionResult Create([Bind(Include="ID,SurveyID,trainProf1,trainProf2,trainProf3,trainProf4,trainProf5,trainTech1,trainTech2,trainTech3,trainTech4,trainTech5")] tblswatcctrain tblswatcctrain, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -96,20 +96,20 @@ namespace SWAT.Controllers
                     int trainId = trainIDs.First();
                     tblswatcctrain.ID = trainId;
                     db.Entry(tblswatcctrain).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatcctrain);
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCSchool", new { SurveyID = tblswatcctrain.SurveyID });
                 }
-
-                db.tblswatcctrains.Add(tblswatcctrain);
+                else
+                {
+                    db.tblswatcctrains.Add(tblswatcctrain);
+                }
                 db.SaveChanges();
                 updateScores(tblswatcctrain);
 
                 ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainProfSCORE").Description;
                 ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainTechSCORE").Description;
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "CCSchool", new { SurveyID = tblswatcctrain.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCSchool", new { SurveyID = tblswatcctrain.SurveyID });
+                }
             }
 
             return View(tblswatcctrain);
@@ -138,31 +138,32 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,trainProf1,trainProf2,trainProf3,trainProf4,trainProf5,trainTech1,trainTech2,trainTech3,trainTech4,trainTech5")] tblswatcctrain tblswatcctrain)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,trainProf1,trainProf2,trainProf3,trainProf4,trainProf5,trainTech1,trainTech2,trainTech3,trainTech4,trainTech5")] tblswatcctrain tblswatcctrain, string submitBtn)
         {
             if (ModelState.IsValid)
             {
                 db.Entry(tblswatcctrain).State = EntityState.Modified;
                 db.SaveChanges();
                 updateScores(tblswatcctrain);
-
-                // If there is not any CCSchool with the current survey (SurveyID) then create one and redirect to its edit link.
-                var schools = db.tblswatccschools.Where(e => e.SurveyID == tblswatcctrain.SurveyID);
-                if (!schools.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccschool tblswatccschool = new tblswatccschool();
-                    tblswatccschool.SurveyID = tblswatcctrain.SurveyID;
-                    db.tblswatccschools.Add(tblswatccschool);
-                    db.SaveChanges();
-                    int newSchoolID = tblswatccschool.ID;
+                    // If there is not any CCSchool with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var schools = db.tblswatccschools.Where(e => e.SurveyID == tblswatcctrain.SurveyID);
+                    if (!schools.Any())
+                    {
+                        tblswatccschool tblswatccschool = new tblswatccschool();
+                        tblswatccschool.SurveyID = tblswatcctrain.SurveyID;
+                        db.tblswatccschools.Add(tblswatccschool);
+                        db.SaveChanges();
+                        int newSchoolID = tblswatccschool.ID;
 
-                    return RedirectToAction("Edit", "CCSchool", new { id = newSchoolID, SurveyID = tblswatccschool.SurveyID });
+                        return RedirectToAction("Edit", "CCSchool", new { id = newSchoolID, SurveyID = tblswatccschool.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCSchool", new { id = schools.Single(e => e.SurveyID == tblswatcctrain.SurveyID).ID, SurveyID = tblswatcctrain.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "CCSchool", new { id = schools.Single(e => e.SurveyID == tblswatcctrain.SurveyID).ID, SurveyID = tblswatcctrain.SurveyID });
-                }
-                // return RedirectToAction("Index");
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainProfSCORE").Description;

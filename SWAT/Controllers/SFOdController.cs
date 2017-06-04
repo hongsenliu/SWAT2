@@ -200,7 +200,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsfod tblswatsfod)
+        public ActionResult Create(tblswatsfod tblswatsfod, string submitBtn)
         {
             checkHouseholds(tblswatsfod);
             if (ModelState.IsValid)
@@ -211,19 +211,18 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsfod.ID = recordId;
                     db.Entry(tblswatsfod).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsfod);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfod.SurveyID });
                 }
-
-                db.tblswatsfods.Add(tblswatsfod);
+                else
+                {
+                    db.tblswatsfods.Add(tblswatsfod);
+                }
                 db.SaveChanges();
                 updateScores(tblswatsfod);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfod.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfod.SurveyID });
+                }
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemographicSCORE").Description;
@@ -264,7 +263,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsfod tblswatsfod)
+        public ActionResult Edit(tblswatsfod tblswatsfod, string submitBtn)
         {
             checkHouseholds(tblswatsfod);
             if (ModelState.IsValid)
@@ -273,21 +272,22 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsfod);
 
-                var records = db.tblswatsfpoints.Where(e => e.SurveyID == tblswatsfod.SurveyID);
-                if (!records.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatsfpoint newEntry = new tblswatsfpoint();
-                    newEntry.SurveyID = tblswatsfod.SurveyID;
-                    db.tblswatsfpoints.Add(newEntry);
-                    db.SaveChanges();
+                    var records = db.tblswatsfpoints.Where(e => e.SurveyID == tblswatsfod.SurveyID);
+                    if (!records.Any())
+                    {
+                        tblswatsfpoint newEntry = new tblswatsfpoint();
+                        newEntry.SurveyID = tblswatsfod.SurveyID;
+                        db.tblswatsfpoints.Add(newEntry);
+                        db.SaveChanges();
 
-                    int newId = newEntry.ID;
-                    return RedirectToAction("Edit", "SFPoint", new { id = newId, SurveyID = newEntry.SurveyID });
+                        int newId = newEntry.ID;
+                        return RedirectToAction("Edit", "SFPoint", new { id = newId, SurveyID = newEntry.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "SFPoint", new { id = records.First(e => e.SurveyID == tblswatsfod.SurveyID).ID, SurveyID = tblswatsfod.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "SFPoint", new { id = records.First(e => e.SurveyID == tblswatsfod.SurveyID).ID, SurveyID = tblswatsfod.SurveyID });
-
-                // return RedirectToAction("Index");
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemographicSCORE").Description;

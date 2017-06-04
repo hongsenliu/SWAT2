@@ -178,7 +178,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatccexternalsupport tblswatccexternalsupport)
+        public ActionResult Create(tblswatccexternalsupport tblswatccexternalsupport, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -188,17 +188,18 @@ namespace SWAT.Controllers
                     int externalID = externalIDs.First();
                     tblswatccexternalsupport.ID = externalID;
                     db.Entry(tblswatccexternalsupport).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccexternalsupport);
-
-                    return RedirectToAction("Create", "CCWaterManagement", new { SurveyID = tblswatccexternalsupport.SurveyID});
                 }
-
-                db.tblswatccexternalsupports.Add(tblswatccexternalsupport);
+                else
+                {
+                    db.tblswatccexternalsupports.Add(tblswatccexternalsupport);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccexternalsupport);
 
-                return RedirectToAction("Create", "CCWaterManagement", new { SurveyID = tblswatccexternalsupport.SurveyID});
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCWaterManagement", new { SurveyID = tblswatccexternalsupport.SurveyID });
+                }
             }
 
             ViewBag.extVisitTech = new SelectList(db.lkpswatextvisitlus, "id", "Description", tblswatccexternalsupport.extVisitTech);
@@ -254,7 +255,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatccexternalsupport tblswatccexternalsupport)
+        public ActionResult Edit(tblswatccexternalsupport tblswatccexternalsupport, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -262,20 +263,23 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccexternalsupport);
 
-                var ccwatermanagement = db.tblswatccwatermanagements.Where(e => e.SurveyID == tblswatccexternalsupport.SurveyID);
-                if (!ccwatermanagement.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccwatermanagement tblswatccwatermanagement = new tblswatccwatermanagement();
-                    tblswatccwatermanagement.SurveyID = tblswatccexternalsupport.SurveyID;
-                    db.tblswatccwatermanagements.Add(tblswatccwatermanagement);
-                    db.SaveChanges();
+                    var ccwatermanagement = db.tblswatccwatermanagements.Where(e => e.SurveyID == tblswatccexternalsupport.SurveyID);
+                    if (!ccwatermanagement.Any())
+                    {
+                        tblswatccwatermanagement tblswatccwatermanagement = new tblswatccwatermanagement();
+                        tblswatccwatermanagement.SurveyID = tblswatccexternalsupport.SurveyID;
+                        db.tblswatccwatermanagements.Add(tblswatccwatermanagement);
+                        db.SaveChanges();
 
-                    int newExternalID = tblswatccwatermanagement.ID;
+                        int newExternalID = tblswatccwatermanagement.ID;
 
-                    return RedirectToAction("Edit", "CCWaterManagement", new { id = newExternalID, SurveyID = tblswatccwatermanagement.SurveyID });
+                        return RedirectToAction("Edit", "CCWaterManagement", new { id = newExternalID, SurveyID = tblswatccwatermanagement.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "CCWaterManagement", new { id = ccwatermanagement.First(e => e.SurveyID == tblswatccexternalsupport.SurveyID).ID, SurveyID = tblswatccexternalsupport.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "CCWaterManagement", new { id = ccwatermanagement.First(e => e.SurveyID == tblswatccexternalsupport.SurveyID).ID, SurveyID = tblswatccexternalsupport.SurveyID });
             }
             ViewBag.extVisitTech = new SelectList(db.lkpswatextvisitlus, "id", "Description", tblswatccexternalsupport.extVisitTech);
             ViewBag.extVisitAdmin = new SelectList(db.lkpswatextvisitlus, "id", "Description", tblswatccexternalsupport.extVisitAdmin);

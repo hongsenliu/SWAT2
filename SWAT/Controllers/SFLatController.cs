@@ -249,7 +249,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsflat tblswatsflat)
+        public ActionResult Create(tblswatsflat tblswatsflat, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -259,17 +259,18 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsflat.ID = recordId;
                     db.Entry(tblswatsflat).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsflat);
-
-                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsflat.SurveyID });
                 }
-
-                db.tblswatsflats.Add(tblswatsflat);
+                else
+                {
+                    db.tblswatsflats.Add(tblswatsflat);
+                }
                 db.SaveChanges();
                 updateScores(tblswatsflat);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsflat.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsflat.SurveyID });
+                }
             }
 
             ViewBag.hhLatrineClean = new SelectList(db.lkpswathhcleanlus, "id", "Description", tblswatsflat.hhLatrineClean);
@@ -322,7 +323,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsflat tblswatsflat)
+        public ActionResult Edit(tblswatsflat tblswatsflat, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -330,7 +331,10 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsflat);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsflat.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsflat.SurveyID });
+                }
             }
             ViewBag.hhLatrineClean = new SelectList(db.lkpswathhcleanlus, "id", "Description", tblswatsflat.hhLatrineClean);
             ViewBag.latrineCondition = new SelectList(db.lkpswatlatrineconditionlus, "id", "Description", tblswatsflat.latrineCondition);

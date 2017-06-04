@@ -132,7 +132,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatswpdev tblswatswpdev)
+        public ActionResult Create(tblswatswpdev tblswatswpdev, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -142,19 +142,18 @@ namespace SWAT.Controllers
                     int devId = devIDs.First();
                     tblswatswpdev.ID = devId;
                     db.Entry(tblswatswpdev).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatswpdev);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "HPPCom", new { SurveyID = tblswatswpdev.SurveyID });
                 }
-
-                db.tblswatswpdevs.Add(tblswatswpdev);
+                else
+                {
+                    db.tblswatswpdevs.Add(tblswatswpdev);
+                }
                 db.SaveChanges();
                 updateScores(tblswatswpdev);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "HPPCom", new { SurveyID = tblswatswpdev.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "HPPCom", new { SurveyID = tblswatswpdev.SurveyID });
+                }
             }
 
             ViewBag.wwTreatInd = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatswpdev.wwTreatInd);
@@ -196,7 +195,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatswpdev tblswatswpdev)
+        public ActionResult Edit(tblswatswpdev tblswatswpdev, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -204,20 +203,22 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatswpdev);
 
-                var hppcom = db.tblswathppcoms.Where(e => e.SurveyID == tblswatswpdev.SurveyID);
-                if (!hppcom.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswathppcom tblswathppcom = new tblswathppcom();
-                    tblswathppcom.SurveyID = tblswatswpdev.SurveyID;
-                    db.tblswathppcoms.Add(tblswathppcom);
-                    db.SaveChanges();
+                    var hppcom = db.tblswathppcoms.Where(e => e.SurveyID == tblswatswpdev.SurveyID);
+                    if (!hppcom.Any())
+                    {
+                        tblswathppcom tblswathppcom = new tblswathppcom();
+                        tblswathppcom.SurveyID = tblswatswpdev.SurveyID;
+                        db.tblswathppcoms.Add(tblswathppcom);
+                        db.SaveChanges();
 
-                    int newHPPcomID = tblswathppcom.ID;
-                    return RedirectToAction("Edit", "HPPCom", new { id = newHPPcomID, SurveyID = tblswathppcom.SurveyID });
+                        int newHPPcomID = tblswathppcom.ID;
+                        return RedirectToAction("Edit", "HPPCom", new { id = newHPPcomID, SurveyID = tblswathppcom.SurveyID });
+                    }
+                    return RedirectToAction("Edit", "HPPCom", new { id = hppcom.First(e => e.SurveyID == tblswatswpdev.SurveyID).ID, SurveyID = tblswatswpdev.SurveyID });
+
                 }
-                return RedirectToAction("Edit", "HPPCom", new { id = hppcom.First(e => e.SurveyID == tblswatswpdev.SurveyID).ID, SurveyID = tblswatswpdev.SurveyID });
-
-                // return RedirectToAction("Index");
             }
             ViewBag.wwTreatInd = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatswpdev.wwTreatInd);
             ViewBag.bestManInd = new SelectList(db.lkpswatbestmanindlus, "id", "Description", tblswatswpdev.bestManInd);

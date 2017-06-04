@@ -110,7 +110,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,income,rosca,assetsCom1,assetsCom2,assetsCom3,assetsCom4,assetsInd1,assetsInd2,assetsInd3,assetsInd4")] tblswatccfinancial tblswatccfinancial)
+        public ActionResult Create([Bind(Include="ID,SurveyID,income,rosca,assetsCom1,assetsCom2,assetsCom3,assetsCom4,assetsInd1,assetsInd2,assetsInd3,assetsInd4")] tblswatccfinancial tblswatccfinancial, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -121,19 +121,18 @@ namespace SWAT.Controllers
                     int financialId = financialIDs.First();
                     tblswatccfinancial.ID = financialId;
                     db.Entry(tblswatccfinancial).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccfinancial);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCGender", new { SurveyID = tblswatccfinancial.SurveyID });
                 }
-
-                db.tblswatccfinancials.Add(tblswatccfinancial);
+                else
+                {
+                    db.tblswatccfinancials.Add(tblswatccfinancial);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccfinancial);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "CCGender", new { SurveyID = tblswatccfinancial.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCGender", new { SurveyID = tblswatccfinancial.SurveyID });
+                }
             }
 
             ViewBag.rosca = new SelectList(db.lkpswatroscalus, "id", "Description", tblswatccfinancial.rosca);
@@ -170,7 +169,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,income,rosca,assetsCom1,assetsCom2,assetsCom3,assetsCom4,assetsInd1,assetsInd2,assetsInd3,assetsInd4")] tblswatccfinancial tblswatccfinancial)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,income,rosca,assetsCom1,assetsCom2,assetsCom3,assetsCom4,assetsInd1,assetsInd2,assetsInd3,assetsInd4")] tblswatccfinancial tblswatccfinancial, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -178,24 +177,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccfinancial);
 
-                // If there is not any CCGender with the current survey (SurveyID) then create one and redirect to its edit link.
-                var genders = db.tblswatccgenders.Where(e => e.SurveyID == tblswatccfinancial.SurveyID);
-                if (!genders.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccgender tblswatccgender = new tblswatccgender();
-                    tblswatccgender.SurveyID = tblswatccfinancial.SurveyID;
-                    db.tblswatccgenders.Add(tblswatccgender);
-                    db.SaveChanges();
-                    int newGenderId = tblswatccgender.ID;
+                    // If there is not any CCGender with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var genders = db.tblswatccgenders.Where(e => e.SurveyID == tblswatccfinancial.SurveyID);
+                    if (!genders.Any())
+                    {
+                        tblswatccgender tblswatccgender = new tblswatccgender();
+                        tblswatccgender.SurveyID = tblswatccfinancial.SurveyID;
+                        db.tblswatccgenders.Add(tblswatccgender);
+                        db.SaveChanges();
+                        int newGenderId = tblswatccgender.ID;
 
-                    return RedirectToAction("Edit", "CCGender", new { id = newGenderId, SurveyID = tblswatccgender.SurveyID });
+                        return RedirectToAction("Edit", "CCGender", new { id = newGenderId, SurveyID = tblswatccgender.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCGender", new { id = genders.Single(e => e.SurveyID == tblswatccfinancial.SurveyID).ID, SurveyID = tblswatccfinancial.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "CCGender", new { id = genders.Single(e => e.SurveyID == tblswatccfinancial.SurveyID).ID, SurveyID = tblswatccfinancial.SurveyID });
-                }
-
-                // return RedirectToAction("Index");
             }
             ViewBag.rosca = new SelectList(db.lkpswatroscalus, "id", "Description", tblswatccfinancial.rosca);
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "incomeSCORE").Description;

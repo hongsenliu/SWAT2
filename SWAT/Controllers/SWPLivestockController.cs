@@ -101,7 +101,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatswpl tblswatswpl)
+        public ActionResult Create(tblswatswpl tblswatswpl, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -111,19 +111,18 @@ namespace SWAT.Controllers
                     int lsId = lsIDs.First();
                     tblswatswpl.ID = lsId;
                     db.Entry(tblswatswpl).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatswpl);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "SWPAg", new { SurveyID = tblswatswpl.SurveyID });
                 }
-
-                db.tblswatswpls.Add(tblswatswpl);
+                else
+                {
+                    db.tblswatswpls.Add(tblswatswpl);
+                }
                 db.SaveChanges();
                 updateScores(tblswatswpl);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "SWPAg", new { SurveyID = tblswatswpl.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "SWPAg", new { SurveyID = tblswatswpl.SurveyID });
+                }
             }
 
             ViewBag.livestockEffluent = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatswpl.livestockEffluent);
@@ -163,7 +162,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatswpl tblswatswpl)
+        public ActionResult Edit(tblswatswpl tblswatswpl, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -171,56 +170,59 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatswpl);
 
-                var background = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatswpl.SurveyID);
-                if (background != null)
+                if (submitBtn.Equals("Next"))
                 {
-                    // id = 1511 is the "Yes" option in database
+                    var background = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatswpl.SurveyID);
+                    if (background != null)
+                    {
+                        // id = 1511 is the "Yes" option in database
                         if (background.isEconAg == 1511)
-                    { 
-                        // TODO redirect to ag form
-                        var swpag = db.tblswatswpags.Where(e => e.SurveyID == tblswatswpl.SurveyID);
-                        if (!swpag.Any())
                         {
-                            tblswatswpag tblswatswpag = new tblswatswpag();
-                            tblswatswpag.SurveyID = tblswatswpl.SurveyID;
-                            db.tblswatswpags.Add(tblswatswpag);
-                            db.SaveChanges();
+                            // TODO redirect to ag form
+                            var swpag = db.tblswatswpags.Where(e => e.SurveyID == tblswatswpl.SurveyID);
+                            if (!swpag.Any())
+                            {
+                                tblswatswpag tblswatswpag = new tblswatswpag();
+                                tblswatswpag.SurveyID = tblswatswpl.SurveyID;
+                                db.tblswatswpags.Add(tblswatswpag);
+                                db.SaveChanges();
 
-                            int newSWPagID = tblswatswpag.ID;
-                            return RedirectToAction("Edit", "SWPAg", new { id = newSWPagID, SurveyID = tblswatswpag.SurveyID});
+                                int newSWPagID = tblswatswpag.ID;
+                                return RedirectToAction("Edit", "SWPAg", new { id = newSWPagID, SurveyID = tblswatswpag.SurveyID });
+                            }
+                            return RedirectToAction("Edit", "SWPAg", new { id = swpag.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
                         }
-                        return RedirectToAction("Edit", "SWPAg", new { id = swpag.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
-                    }
-                    else if (background.isEconDev == 1511)
-                    { 
-                        // TODO redirect to dev form
-                        var swpdev = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatswpl.SurveyID);
-                        if (!swpdev.Any())
+                        else if (background.isEconDev == 1511)
                         {
-                            tblswatswpdev tblswatswpdev = new tblswatswpdev();
-                            tblswatswpdev.SurveyID = tblswatswpl.SurveyID;
-                            db.tblswatswpdevs.Add(tblswatswpdev);
-                            db.SaveChanges();
+                            // TODO redirect to dev form
+                            var swpdev = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatswpl.SurveyID);
+                            if (!swpdev.Any())
+                            {
+                                tblswatswpdev tblswatswpdev = new tblswatswpdev();
+                                tblswatswpdev.SurveyID = tblswatswpl.SurveyID;
+                                db.tblswatswpdevs.Add(tblswatswpdev);
+                                db.SaveChanges();
 
-                            int newSWPdevID = tblswatswpdev.ID;
-                            return RedirectToAction("Edit", "SWPDev", new { id = newSWPdevID, SurveyID = tblswatswpdev.SurveyID});
+                                int newSWPdevID = tblswatswpdev.ID;
+                                return RedirectToAction("Edit", "SWPDev", new { id = newSWPdevID, SurveyID = tblswatswpdev.SurveyID });
+                            }
+                            return RedirectToAction("Edit", "SWPDev", new { id = swpdev.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
                         }
-                        return RedirectToAction("Edit", "SWPDev", new { id = swpdev.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
                     }
-                }
-                // TODO redirect to health form
-                var hppcom = db.tblswathppcoms.Where(e => e.SurveyID == tblswatswpl.SurveyID);
-                if (!hppcom.Any())
-                {
-                    tblswathppcom tblswathppcom = new tblswathppcom();
-                    tblswathppcom.SurveyID = tblswatswpl.SurveyID;
-                    db.tblswathppcoms.Add(tblswathppcom);
-                    db.SaveChanges();
+                    // TODO redirect to health form
+                    var hppcom = db.tblswathppcoms.Where(e => e.SurveyID == tblswatswpl.SurveyID);
+                    if (!hppcom.Any())
+                    {
+                        tblswathppcom tblswathppcom = new tblswathppcom();
+                        tblswathppcom.SurveyID = tblswatswpl.SurveyID;
+                        db.tblswathppcoms.Add(tblswathppcom);
+                        db.SaveChanges();
 
-                    int newHPPcomID = tblswathppcom.ID;
-                    return RedirectToAction("Edit", "HPPCom", new { id = newHPPcomID, SurveyID = tblswathppcom.SurveyID });
+                        int newHPPcomID = tblswathppcom.ID;
+                        return RedirectToAction("Edit", "HPPCom", new { id = newHPPcomID, SurveyID = tblswathppcom.SurveyID });
+                    }
+                    return RedirectToAction("Edit", "HPPCom", new { id = hppcom.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
                 }
-                return RedirectToAction("Edit", "HPPCom", new { id = hppcom.First(e => e.SurveyID == tblswatswpl.SurveyID).ID, SurveyID = tblswatswpl.SurveyID });
             }
             ViewBag.livestockEffluent = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatswpl.livestockEffluent);
 

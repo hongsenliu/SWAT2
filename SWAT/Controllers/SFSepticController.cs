@@ -279,7 +279,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsfseptic tblswatsfseptic)
+        public ActionResult Create(tblswatsfseptic tblswatsfseptic, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -289,17 +289,18 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsfseptic.ID = recordId;
                     db.Entry(tblswatsfseptic).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsfseptic);
-
-                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfseptic.SurveyID });
                 }
-
-                db.tblswatsfseptics.Add(tblswatsfseptic);
+                else
+                {
+                    db.tblswatsfseptics.Add(tblswatsfseptic);
+                }
                 db.SaveChanges();
                 updateScores(tblswatsfseptic);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfseptic.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfseptic.SurveyID });
+                }
             }
 
             ViewBag.septicChemAvail = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatsfseptic.septicChemAvail);
@@ -382,7 +383,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsfseptic tblswatsfseptic)
+        public ActionResult Edit(tblswatsfseptic tblswatsfseptic, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -390,7 +391,10 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsfseptic);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfseptic.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfseptic.SurveyID });
+                }
             }
             ViewBag.septicChemAvail = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatsfseptic.septicChemAvail);
             ViewBag.septicPumpAvail = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatsfseptic.septicPumpAvail);

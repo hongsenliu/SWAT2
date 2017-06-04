@@ -170,7 +170,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsfsanitation tblswatsfsanitation)
+        public ActionResult Create(tblswatsfsanitation tblswatsfsanitation, string submitBtn)
         {
             checkSumHHsan(tblswatsfsanitation);
             if (ModelState.IsValid)
@@ -181,33 +181,24 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsfsanitation.ID = recordId;
                     db.Entry(tblswatsfsanitation).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsfsanitation);
+                }
+                else
+                {
+                    db.tblswatsfsanitations.Add(tblswatsfsanitation);
+                }
+                db.SaveChanges();
+                updateScores(tblswatsfsanitation);
 
-                    // return RedirectToAction("Index");
+                if (submitBtn.Equals("Next"))
+                {
                     if (tblswatsfsanitation.toiletsAll == 981) // 981 means all homes have toilet
                     {
-                        deleteSFod(tblswatsfsanitation);
                         return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfsanitation.SurveyID });
                     }
                     else
                     {
                         return RedirectToAction("Create", "SFOd", new { SurveyID = tblswatsfsanitation.SurveyID });
                     }
-                }
-
-                db.tblswatsfsanitations.Add(tblswatsfsanitation);
-                db.SaveChanges();
-                updateScores(tblswatsfsanitation);
-
-                // return RedirectToAction("Index");
-                if (tblswatsfsanitation.toiletsAll == 981) // 981 means all homes have toilet
-                {
-                    return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfsanitation.SurveyID });
-                }
-                else
-                {
-                    return RedirectToAction("Create", "SFOd", new { SurveyID = tblswatsfsanitation.SurveyID });
                 }
             }
 
@@ -246,7 +237,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsfsanitation tblswatsfsanitation)
+        public ActionResult Edit(tblswatsfsanitation tblswatsfsanitation, string submitBtn)
         {
             checkSumHHsan(tblswatsfsanitation);
             if (ModelState.IsValid)
@@ -255,40 +246,42 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsfsanitation);
 
-                
 
-                if (tblswatsfsanitation.toiletsAll == 981) // 981 means all homes have toilet
+                if (submitBtn.Equals("Next"))
                 {
-                    deleteSFod(tblswatsfsanitation);
-                    var records = db.tblswatsfpoints.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID);
-                    if (!records.Any())
+                    if (tblswatsfsanitation.toiletsAll == 981) // 981 means all homes have toilet
                     {
-                        tblswatsfpoint newEntry = new tblswatsfpoint();
-                        newEntry.SurveyID = tblswatsfsanitation.SurveyID;
-                        db.tblswatsfpoints.Add(newEntry);
-                        db.SaveChanges();
+                        deleteSFod(tblswatsfsanitation);
+                        var records = db.tblswatsfpoints.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID);
+                        if (!records.Any())
+                        {
+                            tblswatsfpoint newEntry = new tblswatsfpoint();
+                            newEntry.SurveyID = tblswatsfsanitation.SurveyID;
+                            db.tblswatsfpoints.Add(newEntry);
+                            db.SaveChanges();
 
-                        int newId = newEntry.ID;
-                        return RedirectToAction("Edit", "SFPoint", new { id = newId, SurveyID = newEntry.SurveyID });
+                            int newId = newEntry.ID;
+                            return RedirectToAction("Edit", "SFPoint", new { id = newId, SurveyID = newEntry.SurveyID });
+                        }
+
+                        return RedirectToAction("Edit", "SFPoint", new { id = records.First(e => e.SurveyID == tblswatsfsanitation.SurveyID).ID, SurveyID = tblswatsfsanitation.SurveyID });
                     }
-
-                    return RedirectToAction("Edit", "SFPoint", new { id = records.First(e => e.SurveyID == tblswatsfsanitation.SurveyID).ID, SurveyID = tblswatsfsanitation.SurveyID });
-                }
-                else
-                {
-                    var records = db.tblswatsfods.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID);
-                    if (!records.Any())
+                    else
                     {
-                        tblswatsfod newEntry = new tblswatsfod();
-                        newEntry.SurveyID = tblswatsfsanitation.SurveyID;
-                        db.tblswatsfods.Add(newEntry);
-                        db.SaveChanges();
+                        var records = db.tblswatsfods.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID);
+                        if (!records.Any())
+                        {
+                            tblswatsfod newEntry = new tblswatsfod();
+                            newEntry.SurveyID = tblswatsfsanitation.SurveyID;
+                            db.tblswatsfods.Add(newEntry);
+                            db.SaveChanges();
 
-                        int newId = newEntry.ID;
-                        return RedirectToAction("Edit", "SFOd", new { id = newId, SurveyID = newEntry.SurveyID });
+                            int newId = newEntry.ID;
+                            return RedirectToAction("Edit", "SFOd", new { id = newId, SurveyID = newEntry.SurveyID });
+                        }
+
+                        return RedirectToAction("Edit", "SFOd", new { id = records.First(e => e.SurveyID == tblswatsfsanitation.SurveyID).ID, SurveyID = tblswatsfsanitation.SurveyID });
                     }
-
-                    return RedirectToAction("Edit", "SFOd", new { id = records.First(e => e.SurveyID == tblswatsfsanitation.SurveyID).ID, SurveyID = tblswatsfsanitation.SurveyID });
                 }
                 
             }

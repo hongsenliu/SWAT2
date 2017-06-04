@@ -129,7 +129,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,riskFire,riskFlood,riskDrought,prepFire,prepFlood,prepDrought")] tblswatwariskprep tblswatwariskprep)
+        public ActionResult Create([Bind(Include="ID,SurveyID,riskFire,riskFlood,riskDrought,prepFire,prepFlood,prepDrought")] tblswatwariskprep tblswatwariskprep, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -139,16 +139,17 @@ namespace SWAT.Controllers
                     int riskPrepId = riskPrepIDs.First();
                     tblswatwariskprep.ID = riskPrepId;
                     db.Entry(tblswatwariskprep).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwariskprep);
-                    //return RedirectToAction("Index");
-                    return RedirectToAction("Create", "WASurfaceWater", new { SurveyID = tblswatwariskprep.SurveyID });
                 }
-
-                db.tblswatwariskpreps.Add(tblswatwariskprep);
+                else
+                {
+                    db.tblswatwariskpreps.Add(tblswatwariskprep);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwariskprep);
-                return RedirectToAction("Create", "WASurfaceWater", new { SurveyID = tblswatwariskprep.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WASurfaceWater", new { SurveyID = tblswatwariskprep.SurveyID });
+                }
             }
 
             ViewBag.prepFire = new SelectList(db.lkpswatextremepreplus, "id", "Description", tblswatwariskprep.prepFire);
@@ -186,7 +187,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,riskFire,riskFlood,riskDrought,prepFire,prepFlood,prepDrought")] tblswatwariskprep tblswatwariskprep)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,riskFire,riskFlood,riskDrought,prepFire,prepFlood,prepDrought")] tblswatwariskprep tblswatwariskprep, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -194,24 +195,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwariskprep);
 
-                // If there is not any WASurfaceWater with the current survey (SurveyID) then create one and redirect to its edit link.
-                var surfaceWaters = db.tblswatwasurfacewaters.Where(e => e.SurveyID == tblswatwariskprep.SurveyID);
-                if (!surfaceWaters.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwasurfacewater tblswatwasurfacewater = new tblswatwasurfacewater();
-                    tblswatwasurfacewater.SurveyID = tblswatwariskprep.SurveyID;
-                    db.tblswatwasurfacewaters.Add(tblswatwasurfacewater);
-                    db.SaveChanges();
+                    // If there is not any WASurfaceWater with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var surfaceWaters = db.tblswatwasurfacewaters.Where(e => e.SurveyID == tblswatwariskprep.SurveyID);
+                    if (!surfaceWaters.Any())
+                    {
+                        tblswatwasurfacewater tblswatwasurfacewater = new tblswatwasurfacewater();
+                        tblswatwasurfacewater.SurveyID = tblswatwariskprep.SurveyID;
+                        db.tblswatwasurfacewaters.Add(tblswatwasurfacewater);
+                        db.SaveChanges();
 
-                    int newSurfaceWaterID = tblswatwasurfacewater.ID;
-                    return RedirectToAction("Edit", "WASurfaceWater", new { id = newSurfaceWaterID, SurveyID = tblswatwasurfacewater.SurveyID });
+                        int newSurfaceWaterID = tblswatwasurfacewater.ID;
+                        return RedirectToAction("Edit", "WASurfaceWater", new { id = newSurfaceWaterID, SurveyID = tblswatwasurfacewater.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WASurfaceWater", new { id = surfaceWaters.Single(e => e.SurveyID == tblswatwariskprep.SurveyID).ID, SurveyID = tblswatwariskprep.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "WASurfaceWater", new { id = surfaceWaters.Single(e => e.SurveyID == tblswatwariskprep.SurveyID).ID, SurveyID = tblswatwariskprep.SurveyID });
-                }
-
-                // return RedirectToAction("Index");
             }
             ViewBag.prepFire = new SelectList(db.lkpswatextremepreplus, "id", "Description", tblswatwariskprep.prepFire);
             ViewBag.prepFlood = new SelectList(db.lkpswatextremepreplus, "id", "Description", tblswatwariskprep.prepFlood);

@@ -95,7 +95,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,schoolAttend,schoolInstitution1,schoolInstitution2,schoolInstitution3,schoolInstitution4,schoolHHAccess")] tblswatccschool tblswatccschool)
+        public ActionResult Create([Bind(Include="ID,SurveyID,schoolAttend,schoolInstitution1,schoolInstitution2,schoolInstitution3,schoolInstitution4,schoolHHAccess")] tblswatccschool tblswatccschool, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -105,19 +105,18 @@ namespace SWAT.Controllers
                     int schoolId = schoolIDs.First();
                     tblswatccschool.ID = schoolId;
                     db.Entry(tblswatccschool).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccschool);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCIndig", new { SurveyID = tblswatccschool.SurveyID });
                 }
-
-                db.tblswatccschools.Add(tblswatccschool);
+                else
+                {
+                    db.tblswatccschools.Add(tblswatccschool);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccschool);
 
-                // return RedirectToAction("Index");
-                return RedirectToAction("Create", "CCIndig", new { SurveyID = tblswatccschool.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCIndig", new { SurveyID = tblswatccschool.SurveyID });
+                }
             }
 
             ViewBag.schoolHHAccess = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatccschool.schoolHHAccess);
@@ -151,7 +150,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,schoolAttend,schoolInstitution1,schoolInstitution2,schoolInstitution3,schoolInstitution4,schoolHHAccess")] tblswatccschool tblswatccschool)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,schoolAttend,schoolInstitution1,schoolInstitution2,schoolInstitution3,schoolInstitution4,schoolHHAccess")] tblswatccschool tblswatccschool, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -159,24 +158,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccschool);
 
-                // If there is not any CCIndig with the current survey (SurveyID) then create one and redirect to its edit link.
-                var indigs = db.tblswatccindigs.Where(e => e.SurveyID == tblswatccschool.SurveyID);
-                if (!indigs.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccindig tblswatccindig = new tblswatccindig();
-                    tblswatccindig.SurveyID = tblswatccschool.SurveyID;
-                    db.tblswatccindigs.Add(tblswatccindig);
-                    db.SaveChanges();
-                    int newIndigID = tblswatccindig.ID;
+                    // If there is not any CCIndig with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var indigs = db.tblswatccindigs.Where(e => e.SurveyID == tblswatccschool.SurveyID);
+                    if (!indigs.Any())
+                    {
+                        tblswatccindig tblswatccindig = new tblswatccindig();
+                        tblswatccindig.SurveyID = tblswatccschool.SurveyID;
+                        db.tblswatccindigs.Add(tblswatccindig);
+                        db.SaveChanges();
+                        int newIndigID = tblswatccindig.ID;
 
-                    return RedirectToAction("Edit", "CCIndig", new { id = newIndigID, SurveyID = tblswatccindig.SurveyID });
+                        return RedirectToAction("Edit", "CCIndig", new { id = newIndigID, SurveyID = tblswatccindig.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCIndig", new { id = indigs.Single(e => e.SurveyID == tblswatccschool.SurveyID).ID, SurveyID = tblswatccschool.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "CCIndig", new { id = indigs.Single(e => e.SurveyID == tblswatccschool.SurveyID).ID, SurveyID = tblswatccschool.SurveyID });
-                }
-
-                // return RedirectToAction("Index");
             }
             ViewBag.schoolHHAccess = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatccschool.schoolHHAccess);
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolAttendSCORE").Description;

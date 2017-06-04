@@ -226,7 +226,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsfcentral tblswatsfcentral)
+        public ActionResult Create(tblswatsfcentral tblswatsfcentral, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -236,18 +236,18 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsfcentral.ID = recordId;
                     db.Entry(tblswatsfcentral).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsfcentral);
-
-                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfcentral.SurveyID });
-                    // return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfpoint.SurveyID });
                 }
-
-                db.tblswatsfcentrals.Add(tblswatsfcentral);
+                else
+                {
+                    db.tblswatsfcentrals.Add(tblswatsfcentral);
+                }
                 db.SaveChanges();
                 updateScores(tblswatsfcentral);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfcentral.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfcentral.SurveyID });
+                }
             }
 
             ViewBag.centralSludge = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatsfcentral.centralSludge);
@@ -322,7 +322,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsfcentral tblswatsfcentral)
+        public ActionResult Edit(tblswatsfcentral tblswatsfcentral, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -330,7 +330,10 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsfcentral);
 
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfcentral.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfcentral.SurveyID });
+                }
             }
             ViewBag.centralSludge = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatsfcentral.centralSludge);
             ViewBag.centralCondition = new SelectList(db.lkpswatcentralconditionlus, "id", "Description", tblswatsfcentral.centralCondition);

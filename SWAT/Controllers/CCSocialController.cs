@@ -109,7 +109,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatccsocial tblswatccsocial)
+        public ActionResult Create(tblswatccsocial tblswatccsocial, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -119,21 +119,18 @@ namespace SWAT.Controllers
                     int socialID = socialIDs.First();
                     tblswatccsocial.ID = socialID;
                     db.Entry(tblswatccsocial).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccsocial);
-
-                    // return RedirectToAction("Index");
-                    // return RedirectToAction("Report", "Survey", new { id = tblswatccsocial.SurveyID });
-                    return RedirectToAction("Create", "CCCom", new { SurveyID = tblswatccsocial.SurveyID });
                 }
-
-                db.tblswatccsocials.Add(tblswatccsocial);
+                else
+                {
+                    db.tblswatccsocials.Add(tblswatccsocial);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccsocial);
 
-                // return RedirectToAction("Index");
-                // return RedirectToAction("Report", "Survey", new { id = tblswatccsocial.SurveyID });
-                return RedirectToAction("Create", "CCCom", new { SurveyID = tblswatccsocial.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCCom", new { SurveyID = tblswatccsocial.SurveyID });
+                }
             }
 
             ViewBag.socHelp = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatccsocial.socHelp);
@@ -175,7 +172,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatccsocial tblswatccsocial)
+        public ActionResult Edit(tblswatccsocial tblswatccsocial, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -183,20 +180,23 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccsocial);
 
-                // If there is not any CCCom with the current survey (SurveyID) then create one and redirect to its edit link.
-                var coms = db.tblswatcccoms.Where(e => e.SurveyID == tblswatccsocial.SurveyID);
-                if (!coms.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatcccom tblswatcccom = new tblswatcccom();
-                    tblswatcccom.SurveyID = tblswatccsocial.SurveyID;
-                    db.tblswatcccoms.Add(tblswatcccom);
-                    db.SaveChanges();
+                    // If there is not any CCCom with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var coms = db.tblswatcccoms.Where(e => e.SurveyID == tblswatccsocial.SurveyID);
+                    if (!coms.Any())
+                    {
+                        tblswatcccom tblswatcccom = new tblswatcccom();
+                        tblswatcccom.SurveyID = tblswatccsocial.SurveyID;
+                        db.tblswatcccoms.Add(tblswatcccom);
+                        db.SaveChanges();
 
-                    int newCCcomId = tblswatcccom.ID;
-                    return RedirectToAction("Edit", "CCCom", new { id = newCCcomId, SurveyID = tblswatcccom.SurveyID});
+                        int newCCcomId = tblswatcccom.ID;
+                        return RedirectToAction("Edit", "CCCom", new { id = newCCcomId, SurveyID = tblswatcccom.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "CCCom", new { id = coms.Single(e => e.SurveyID == tblswatccsocial.SurveyID).ID, SurveyID = tblswatccsocial.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "CCCom", new { id = coms.Single(e => e.SurveyID == tblswatccsocial.SurveyID).ID, SurveyID = tblswatccsocial.SurveyID});
             }
             ViewBag.socHelp = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatccsocial.socHelp);
             ViewBag.socClique = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswatccsocial.socClique);

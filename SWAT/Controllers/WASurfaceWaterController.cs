@@ -81,7 +81,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,runoff,surfaceVar")] tblswatwasurfacewater tblswatwasurfacewater)
+        public ActionResult Create([Bind(Include="ID,SurveyID,runoff,surfaceVar")] tblswatwasurfacewater tblswatwasurfacewater, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -91,16 +91,18 @@ namespace SWAT.Controllers
                     int surfaceWaterId = surfaceWaterIDs.First();
                     tblswatwasurfacewater.ID = surfaceWaterId;
                     db.Entry(tblswatwasurfacewater).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatwasurfacewater);
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "WAGroundWater", new { SurveyID = tblswatwasurfacewater.SurveyID });
                 }
-
-                db.tblswatwasurfacewaters.Add(tblswatwasurfacewater);
+                else
+                {
+                    db.tblswatwasurfacewaters.Add(tblswatwasurfacewater);
+                }
                 db.SaveChanges();
                 updateScores(tblswatwasurfacewater);
-                return RedirectToAction("Create", "WAGroundWater", new { SurveyID = tblswatwasurfacewater.SurveyID });
+
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "WAGroundWater", new { SurveyID = tblswatwasurfacewater.SurveyID });
+                }
             }
 
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description", tblswatwasurfacewater.runoff);
@@ -130,7 +132,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,runoff,surfaceVar")] tblswatwasurfacewater tblswatwasurfacewater)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,runoff,surfaceVar")] tblswatwasurfacewater tblswatwasurfacewater, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -138,24 +140,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatwasurfacewater);
 
-                // If there is not any WAGroundWater with the current survey (SurveyID) then create one and redirect to its edit link.
-                var groundWaters = db.tblswatwagroundwaters.Where(e => e.SurveyID == tblswatwasurfacewater.SurveyID);
-                if (!groundWaters.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatwagroundwater tblswatwagroundwater = new tblswatwagroundwater();
-                    tblswatwagroundwater.SurveyID = tblswatwasurfacewater.SurveyID;
-                    db.tblswatwagroundwaters.Add(tblswatwagroundwater);
-                    db.SaveChanges();
+                    // If there is not any WAGroundWater with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var groundWaters = db.tblswatwagroundwaters.Where(e => e.SurveyID == tblswatwasurfacewater.SurveyID);
+                    if (!groundWaters.Any())
+                    {
+                        tblswatwagroundwater tblswatwagroundwater = new tblswatwagroundwater();
+                        tblswatwagroundwater.SurveyID = tblswatwasurfacewater.SurveyID;
+                        db.tblswatwagroundwaters.Add(tblswatwagroundwater);
+                        db.SaveChanges();
 
-                    int newGroundWaterID = tblswatwagroundwater.ID;
-                    return RedirectToAction("Edit", "WAGroundWater", new { id = newGroundWaterID, SurveyID = tblswatwagroundwater.SurveyID });
+                        int newGroundWaterID = tblswatwagroundwater.ID;
+                        return RedirectToAction("Edit", "WAGroundWater", new { id = newGroundWaterID, SurveyID = tblswatwagroundwater.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "WAGroundWater", new { id = groundWaters.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID).ID, SurveyID = tblswatwasurfacewater.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "WAGroundWater", new { id = groundWaters.Single(e => e.SurveyID == tblswatwasurfacewater.SurveyID).ID, SurveyID = tblswatwasurfacewater.SurveyID });
-                }
-
-                // return RedirectToAction("Index");
             }
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description", tblswatwasurfacewater.runoff);
             ViewBag.surfaceVar = new SelectList(db.lkpswatsurfacevarlus, "id", "Description", tblswatwasurfacewater.surfaceVar);

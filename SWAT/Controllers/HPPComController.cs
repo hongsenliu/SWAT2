@@ -113,7 +113,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswathppcom tblswathppcom)
+        public ActionResult Create(tblswathppcom tblswathppcom, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -123,18 +123,18 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswathppcom.ID = recordId;
                     db.Entry(tblswathppcom).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswathppcom);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "HPPKhp", new { SurveyID = tblswathppcom.SurveyID });
                 }
-
-                db.tblswathppcoms.Add(tblswathppcom);
+                else
+                {
+                    db.tblswathppcoms.Add(tblswathppcom);
+                }
                 db.SaveChanges();
                 updateScores(tblswathppcom);
 
-                return RedirectToAction("Create", "HPPKhp", new { SurveyID = tblswathppcom.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "HPPKhp", new { SurveyID = tblswathppcom.SurveyID });
+                }
             }
 
             ViewBag.diarrhea = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswathppcom.diarrhea);
@@ -182,7 +182,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswathppcom tblswathppcom)
+        public ActionResult Edit(tblswathppcom tblswathppcom, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -190,19 +190,22 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswathppcom);
 
-                var records = db.tblswathppkhps.Where(e => e.SurveyID == tblswathppcom.SurveyID);
-                if (!records.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswathppkhp newEntry = new tblswathppkhp();
-                    newEntry.SurveyID = tblswathppcom.SurveyID;
-                    db.tblswathppkhps.Add(newEntry);
-                    db.SaveChanges();
+                    var records = db.tblswathppkhps.Where(e => e.SurveyID == tblswathppcom.SurveyID);
+                    if (!records.Any())
+                    {
+                        tblswathppkhp newEntry = new tblswathppkhp();
+                        newEntry.SurveyID = tblswathppcom.SurveyID;
+                        db.tblswathppkhps.Add(newEntry);
+                        db.SaveChanges();
 
-                    int newId = newEntry.ID;
-                    return RedirectToAction("Edit", "HPPKhp", new { id = newId, SurveyID = newEntry.SurveyID });
+                        int newId = newEntry.ID;
+                        return RedirectToAction("Edit", "HPPKhp", new { id = newId, SurveyID = newEntry.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "HPPKhp", new { id = records.First(e => e.SurveyID == tblswathppcom.SurveyID).ID, SurveyID = tblswathppcom.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "HPPKhp", new { id = records.First(e => e.SurveyID == tblswathppcom.SurveyID).ID, SurveyID = tblswathppcom.SurveyID});
             }
             ViewBag.diarrhea = new SelectList(db.lkpswat5ranklu, "id", "Description", tblswathppcom.diarrhea);
             ViewBag.medicalCost = new SelectList(db.lkpswatmedicalcostlus, "id", "Description", tblswathppcom.medicalCost);

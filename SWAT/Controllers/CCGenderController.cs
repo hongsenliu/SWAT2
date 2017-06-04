@@ -136,7 +136,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,gRole1,gRole2,gRole3,gRole4,gRole5,gRole6,gRoleWomen,gWomenEngage,gWomenRep")] tblswatccgender tblswatccgender)
+        public ActionResult Create([Bind(Include="ID,SurveyID,gRole1,gRole2,gRole3,gRole4,gRole5,gRole6,gRoleWomen,gWomenEngage,gWomenRep")] tblswatccgender tblswatccgender, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -146,21 +146,17 @@ namespace SWAT.Controllers
                     int genderId = genderIDs.First();
                     tblswatccgender.ID = genderId;
                     db.Entry(tblswatccgender).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccgender);
-
-                    // return RedirectToAction("Index");
-                    // return RedirectToAction("Report", "Survey", new { id = tblswatccgender.SurveyID });
-                    return RedirectToAction("Create", "CCSocial", new { SurveyID = tblswatccgender.SurveyID });
                 }
-
-                db.tblswatccgenders.Add(tblswatccgender);
+                else
+                {
+                    db.tblswatccgenders.Add(tblswatccgender);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccgender);
-
-                // return RedirectToAction("Index");
-                // return RedirectToAction("Report", "Survey", new { id = tblswatccgender.SurveyID });
-                return RedirectToAction("Create", "CCSocial", new { SurveyID = tblswatccgender.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCSocial", new { SurveyID = tblswatccgender.SurveyID });
+                }
             }
 
             ViewBag.gRole1 = new SelectList(db.lkpswatgenderlus, "id", "Description", tblswatccgender.gRole1);
@@ -206,7 +202,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,gRole1,gRole2,gRole3,gRole4,gRole5,gRole6,gRoleWomen,gWomenEngage,gWomenRep")] tblswatccgender tblswatccgender)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,gRole1,gRole2,gRole3,gRole4,gRole5,gRole6,gRoleWomen,gWomenEngage,gWomenRep")] tblswatccgender tblswatccgender, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -214,22 +210,24 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccgender);
 
-                // If there is not any CCSocial with the current survey (SurveyID) then create one and redirect to its edit link.
-                var socials = db.tblswatccsocials.Where(e => e.SurveyID == tblswatccgender.SurveyID);
-                if (!socials.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatccsocial tblswatccsocial = new tblswatccsocial();
-                    tblswatccsocial.SurveyID = tblswatccgender.SurveyID;
-                    db.tblswatccsocials.Add(tblswatccsocial);
-                    db.SaveChanges();
+                    // If there is not any CCSocial with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var socials = db.tblswatccsocials.Where(e => e.SurveyID == tblswatccgender.SurveyID);
+                    if (!socials.Any())
+                    {
+                        tblswatccsocial tblswatccsocial = new tblswatccsocial();
+                        tblswatccsocial.SurveyID = tblswatccgender.SurveyID;
+                        db.tblswatccsocials.Add(tblswatccsocial);
+                        db.SaveChanges();
 
-                    int newSocialID = tblswatccsocial.ID;
+                        int newSocialID = tblswatccsocial.ID;
 
-                    return RedirectToAction("Edit", "CCSocial", new { id = newSocialID, SurveyID = tblswatccsocial.SurveyID });
+                        return RedirectToAction("Edit", "CCSocial", new { id = newSocialID, SurveyID = tblswatccsocial.SurveyID });
+                    }
+
+                    return RedirectToAction("Edit", "CCSocial", new { id = socials.Single(e => e.SurveyID == tblswatccgender.SurveyID).ID, SurveyID = tblswatccgender.SurveyID });
                 }
-
-                return RedirectToAction("Edit", "CCSocial", new { id = socials.Single(e => e.SurveyID == tblswatccgender.SurveyID).ID, SurveyID = tblswatccgender.SurveyID });
-                // return RedirectToAction("Index");
             }
             ViewBag.gRole1 = new SelectList(db.lkpswatgenderlus, "id", "Description", tblswatccgender.gRole1);
             ViewBag.gRole2 = new SelectList(db.lkpswatgenderlus, "id", "Description", tblswatccgender.gRole2);

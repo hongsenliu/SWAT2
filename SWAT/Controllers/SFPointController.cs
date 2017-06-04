@@ -120,7 +120,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create(tblswatsfpoint tblswatsfpoint)
+        public ActionResult Create(tblswatsfpoint tblswatsfpoint, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -130,9 +130,16 @@ namespace SWAT.Controllers
                     int recordId = recordIDs.First();
                     tblswatsfpoint.ID = recordId;
                     db.Entry(tblswatsfpoint).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatsfpoint);
+                }
+                else
+                {
+                    db.tblswatsfpoints.Add(tblswatsfpoint);
+                }
+                db.SaveChanges();
+                updateScores(tblswatsfpoint);
 
+                if (submitBtn.Equals("Next"))
+                {
                     // sanType = [1001, 1002, 1003]
                     if (tblswatsfpoint.sanType == 1001)
                     {
@@ -147,28 +154,7 @@ namespace SWAT.Controllers
                         return RedirectToAction("Create", "SFLat", new { SurveyID = tblswatsfpoint.SurveyID });
                     }
                     return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfpoint.SurveyID });
-                    // return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfpoint.SurveyID });
                 }
-
-                db.tblswatsfpoints.Add(tblswatsfpoint);
-                db.SaveChanges();
-                updateScores(tblswatsfpoint);
-
-                // sanType = [1001, 1002, 1003]
-                if (tblswatsfpoint.sanType == 1001)
-                {
-                    return RedirectToAction("Create", "SFCentral", new { SurveyID = tblswatsfpoint.SurveyID });
-                }
-                else if (tblswatsfpoint.sanType == 1002)
-                {
-                    return RedirectToAction("Create", "SFSeptic", new { SurveyID = tblswatsfpoint.SurveyID });
-                }
-                else if (tblswatsfpoint.sanType == 1003)
-                {
-                    return RedirectToAction("Create", "SFLat", new { SurveyID = tblswatsfpoint.SurveyID });
-                }
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfpoint.SurveyID});
-                // return RedirectToAction("Create", "SFPoint", new { SurveyID = tblswatsfpoint.SurveyID });
             }
 
             ViewBag.sanType = new SelectList(db.lkpswatsantypelus, "id", "Description", tblswatsfpoint.sanType);
@@ -206,7 +192,7 @@ namespace SWAT.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(tblswatsfpoint tblswatsfpoint)
+        public ActionResult Edit(tblswatsfpoint tblswatsfpoint, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -214,59 +200,62 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatsfpoint);
 
-                // sanType = [1001, 1002, 1003]
-                if (tblswatsfpoint.sanType == 1001)
+                if (submitBtn.Equals("Next"))
                 {
-                    var records = db.tblswatsfcentrals.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
-                    if (!records.Any())
+                    // sanType = [1001, 1002, 1003]
+                    if (tblswatsfpoint.sanType == 1001)
                     {
-                        tblswatsfcentral newEntry = new tblswatsfcentral();
-                        newEntry.SurveyID = tblswatsfpoint.SurveyID;
-                        db.tblswatsfcentrals.Add(newEntry);
-                        db.SaveChanges();
+                        var records = db.tblswatsfcentrals.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
+                        if (!records.Any())
+                        {
+                            tblswatsfcentral newEntry = new tblswatsfcentral();
+                            newEntry.SurveyID = tblswatsfpoint.SurveyID;
+                            db.tblswatsfcentrals.Add(newEntry);
+                            db.SaveChanges();
 
-                        int newId = newEntry.ID;
-                        return RedirectToAction("Edit", "SFCentral", new { id = newId, SurveyID = newEntry.SurveyID });
+                            int newId = newEntry.ID;
+                            return RedirectToAction("Edit", "SFCentral", new { id = newId, SurveyID = newEntry.SurveyID });
+                        }
+
+                        return RedirectToAction("Edit", "SFCentral", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
+
+
+                    }
+                    else if (tblswatsfpoint.sanType == 1002)
+                    {
+                        var records = db.tblswatsfseptics.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
+                        if (!records.Any())
+                        {
+                            tblswatsfseptic newEntry = new tblswatsfseptic();
+                            newEntry.SurveyID = tblswatsfpoint.SurveyID;
+                            db.tblswatsfseptics.Add(newEntry);
+                            db.SaveChanges();
+
+                            int newId = newEntry.ID;
+                            return RedirectToAction("Edit", "SFSeptic", new { id = newId, SurveyID = newEntry.SurveyID });
+                        }
+
+                        return RedirectToAction("Edit", "SFSeptic", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
+                    }
+                    else if (tblswatsfpoint.sanType == 1003)
+                    {
+                        var records = db.tblswatsflats.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
+                        if (!records.Any())
+                        {
+                            tblswatsflat newEntry = new tblswatsflat();
+                            newEntry.SurveyID = tblswatsfpoint.SurveyID;
+                            db.tblswatsflats.Add(newEntry);
+                            db.SaveChanges();
+
+                            int newId = newEntry.ID;
+                            return RedirectToAction("Edit", "SFLat", new { id = newId, SurveyID = newEntry.SurveyID });
+                        }
+
+                        return RedirectToAction("Edit", "SFLat", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
                     }
 
-                    return RedirectToAction("Edit", "SFCentral", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
-
-                    
+                    return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfpoint.SurveyID });
                 }
-                else if (tblswatsfpoint.sanType == 1002)
-                {
-                    var records = db.tblswatsfseptics.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
-                    if (!records.Any())
-                    {
-                        tblswatsfseptic newEntry = new tblswatsfseptic();
-                        newEntry.SurveyID = tblswatsfpoint.SurveyID;
-                        db.tblswatsfseptics.Add(newEntry);
-                        db.SaveChanges();
-
-                        int newId = newEntry.ID;
-                        return RedirectToAction("Edit", "SFSeptic", new { id = newId, SurveyID = newEntry.SurveyID });
-                    }
-
-                    return RedirectToAction("Edit", "SFSeptic", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
-                }
-                else if (tblswatsfpoint.sanType == 1003)
-                {
-                    var records = db.tblswatsflats.Where(e => e.SurveyID == tblswatsfpoint.SurveyID);
-                    if (!records.Any())
-                    {
-                        tblswatsflat newEntry = new tblswatsflat();
-                        newEntry.SurveyID = tblswatsfpoint.SurveyID;
-                        db.tblswatsflats.Add(newEntry);
-                        db.SaveChanges();
-
-                        int newId = newEntry.ID;
-                        return RedirectToAction("Edit", "SFLat", new { id = newId, SurveyID = newEntry.SurveyID });
-                    }
-
-                    return RedirectToAction("Edit", "SFLat", new { id = records.First(e => e.SurveyID == tblswatsfpoint.SurveyID).ID, SurveyID = tblswatsfpoint.SurveyID });
-                }
-
-                return RedirectToAction("WaterPoints", "Survey", new { id = tblswatsfpoint.SurveyID});
             }
             ViewBag.sanType = new SelectList(db.lkpswatsantypelus, "id", "Description", tblswatsfpoint.sanType);
 

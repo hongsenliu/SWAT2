@@ -124,7 +124,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,eduPrim,eduSec,eduGradWomen,eduGradMen")] tblswatccedu tblswatccedu)
+        public ActionResult Create([Bind(Include="ID,SurveyID,eduPrim,eduSec,eduGradWomen,eduGradMen")] tblswatccedu tblswatccedu, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -134,17 +134,17 @@ namespace SWAT.Controllers
                     int educationId = educationIDs.First();
                     tblswatccedu.ID = educationId;
                     db.Entry(tblswatccedu).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccedu);
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCTrain", new { SurveyID = tblswatccedu.SurveyID });
                 }
-
-                db.tblswatccedus.Add(tblswatccedu);
+                else
+                {
+                    db.tblswatccedus.Add(tblswatccedu);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccedu);
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "CCTrain", new { SurveyID = tblswatccedu.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCTrain", new { SurveyID = tblswatccedu.SurveyID });
+                }
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "eduPrimeSCORE").Description;
@@ -179,7 +179,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,eduPrim,eduSec,eduGradWomen,eduGradMen")] tblswatccedu tblswatccedu)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,eduPrim,eduSec,eduGradWomen,eduGradMen")] tblswatccedu tblswatccedu, string submitBtn)
         {
             if (ModelState.IsValid)
             {
@@ -187,24 +187,25 @@ namespace SWAT.Controllers
                 db.SaveChanges();
                 updateScores(tblswatccedu);
 
-                // If there is not any CCTrain with the current survey (SurveyID) then create one and redirect to its edit link.
-                var trains = db.tblswatcctrains.Where(e => e.SurveyID == tblswatccedu.SurveyID);
-                if (!trains.Any())
+                if (submitBtn.Equals("Next"))
                 {
-                    tblswatcctrain tblswatcctrain = new tblswatcctrain();
-                    tblswatcctrain.SurveyID = tblswatccedu.SurveyID;
-                    db.tblswatcctrains.Add(tblswatcctrain);
-                    db.SaveChanges();
+                    // If there is not any CCTrain with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var trains = db.tblswatcctrains.Where(e => e.SurveyID == tblswatccedu.SurveyID);
+                    if (!trains.Any())
+                    {
+                        tblswatcctrain tblswatcctrain = new tblswatcctrain();
+                        tblswatcctrain.SurveyID = tblswatccedu.SurveyID;
+                        db.tblswatcctrains.Add(tblswatcctrain);
+                        db.SaveChanges();
 
-                    int newTrainID = tblswatcctrain.ID;
-                    return RedirectToAction("Edit", "CCTrain", new { id = newTrainID, SurveyID = tblswatcctrain.SurveyID });
+                        int newTrainID = tblswatcctrain.ID;
+                        return RedirectToAction("Edit", "CCTrain", new { id = newTrainID, SurveyID = tblswatcctrain.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCTrain", new { id = trains.Single(e => e.SurveyID == tblswatccedu.SurveyID).ID, SurveyID = tblswatccedu.SurveyID });
+                    }
                 }
-                else
-                {
-                    return RedirectToAction("Edit", "CCTrain", new { id = trains.Single(e => e.SurveyID == tblswatccedu.SurveyID).ID, SurveyID = tblswatccedu.SurveyID });
-                }
-
-                //return RedirectToAction("Index");
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "eduPrimeSCORE").Description;

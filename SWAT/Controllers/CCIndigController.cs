@@ -136,7 +136,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,SurveyID,indigPop,longtermPop")] tblswatccindig tblswatccindig)
+        public ActionResult Create([Bind(Include="ID,SurveyID,indigPop,longtermPop")] tblswatccindig tblswatccindig, string submitBtn)
         {
             checkPopulation(tblswatccindig);
             if (ModelState.IsValid)
@@ -148,19 +148,18 @@ namespace SWAT.Controllers
                     int indigId = indigIDs.First();
                     tblswatccindig.ID = indigId;
                     db.Entry(tblswatccindig).State = EntityState.Modified;
-                    db.SaveChanges();
-                    updateScores(tblswatccindig);
-
-                    // return RedirectToAction("Index");
-                    return RedirectToAction("Create", "CCFinancial", new { SurveyID = tblswatccindig.SurveyID });
                 }
-
-                db.tblswatccindigs.Add(tblswatccindig);
+                else
+                {
+                    db.tblswatccindigs.Add(tblswatccindig);
+                }
                 db.SaveChanges();
                 updateScores(tblswatccindig);
 
-                //return RedirectToAction("Index");
-                return RedirectToAction("Create", "CCFinancial", new { SurveyID = tblswatccindig.SurveyID });
+                if (submitBtn.Equals("Next"))
+                {
+                    return RedirectToAction("Create", "CCFinancial", new { SurveyID = tblswatccindig.SurveyID });
+                }
             }
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
@@ -190,7 +189,7 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include="ID,SurveyID,indigPop,indigPopPerCapita,longtermPop,longtermPopPerCapita")] tblswatccindig tblswatccindig)
+        public ActionResult Edit([Bind(Include="ID,SurveyID,indigPop,indigPopPerCapita,longtermPop,longtermPopPerCapita")] tblswatccindig tblswatccindig, string submitBtn)
         {
             checkPopulation(tblswatccindig);
             if (ModelState.IsValid)
@@ -198,24 +197,26 @@ namespace SWAT.Controllers
                 db.Entry(tblswatccindig).State = EntityState.Modified;
                 db.SaveChanges();
                 updateScores(tblswatccindig);
-                
-                // If there is not any CCFinancial with the current survey (SurveyID) then create one and redirect to its edit link.
-                var financials = db.tblswatccfinancials.Where(e => e.SurveyID == tblswatccindig.SurveyID);
-                if (!financials.Any())
-                {
-                    tblswatccfinancial tblswatccfinancial = new tblswatccfinancial();
-                    tblswatccfinancial.SurveyID = tblswatccindig.SurveyID;
-                    db.tblswatccfinancials.Add(tblswatccfinancial);
-                    db.SaveChanges();
-                    int newFinancialId = tblswatccfinancial.ID;
 
-                    return RedirectToAction("Edit", "CCFinancial", new { id = newFinancialId, SurveyID = tblswatccfinancial.SurveyID });
-                }
-                else
+                if (submitBtn.Equals("Next"))
                 {
-                    return RedirectToAction("Edit", "CCFinancial", new { id = financials.Single(e => e.SurveyID == tblswatccindig.SurveyID).ID, SurveyID = tblswatccindig.SurveyID });
+                    // If there is not any CCFinancial with the current survey (SurveyID) then create one and redirect to its edit link.
+                    var financials = db.tblswatccfinancials.Where(e => e.SurveyID == tblswatccindig.SurveyID);
+                    if (!financials.Any())
+                    {
+                        tblswatccfinancial tblswatccfinancial = new tblswatccfinancial();
+                        tblswatccfinancial.SurveyID = tblswatccindig.SurveyID;
+                        db.tblswatccfinancials.Add(tblswatccfinancial);
+                        db.SaveChanges();
+                        int newFinancialId = tblswatccfinancial.ID;
+
+                        return RedirectToAction("Edit", "CCFinancial", new { id = newFinancialId, SurveyID = tblswatccfinancial.SurveyID });
+                    }
+                    else
+                    {
+                        return RedirectToAction("Edit", "CCFinancial", new { id = financials.Single(e => e.SurveyID == tblswatccindig.SurveyID).ID, SurveyID = tblswatccindig.SurveyID });
+                    }
                 }
-                //return RedirectToAction("Index");
             }
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "longtermPopSCORE").Description;
