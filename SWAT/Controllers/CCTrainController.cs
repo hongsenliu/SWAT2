@@ -46,6 +46,11 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainProfSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainTechSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -111,7 +116,11 @@ namespace SWAT.Controllers
                     return RedirectToAction("Create", "CCSchool", new { SurveyID = tblswatcctrain.SurveyID });
                 }
             }
-
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatcctrain.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatcctrain.SurveyID).ID;
+            ViewBag.SurveyID = tblswatcctrain.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcctrain);
         }
 
@@ -130,6 +139,11 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainProfSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainTechSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcctrain);
         }
 
@@ -168,6 +182,11 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainProfSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "trainTechSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatcctrain.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatcctrain.SurveyID).ID;
+            ViewBag.SurveyID = tblswatcctrain.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcctrain);
         }
 

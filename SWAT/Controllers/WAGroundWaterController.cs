@@ -46,6 +46,10 @@ namespace SWAT.Controllers
 
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description");
             ViewBag.gwReliability = new SelectList(db.lkpswatyesnolus, "id", "Description");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -106,6 +110,10 @@ namespace SWAT.Controllers
 
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description", tblswatwagroundwater.gwAvailability);
             ViewBag.gwReliability = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatwagroundwater.gwReliability);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwagroundwater.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwagroundwater.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwagroundwater);
         }
 
@@ -123,6 +131,10 @@ namespace SWAT.Controllers
             }
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description", tblswatwagroundwater.gwAvailability);
             ViewBag.gwReliability = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatwagroundwater.gwReliability);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwagroundwater);
         }
 
@@ -162,6 +174,10 @@ namespace SWAT.Controllers
             }
             ViewBag.gwAvailability = new SelectList(db.lkpswatgwavailabilitylus, "id", "Description", tblswatwagroundwater.gwAvailability);
             ViewBag.gwReliability = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatwagroundwater.gwReliability);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwagroundwater.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwagroundwater.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwagroundwater);
         }
 

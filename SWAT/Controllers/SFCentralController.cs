@@ -101,6 +101,13 @@ namespace SWAT.Controllers
             ViewBag.Question10 = db.lkpswatscorevarslus.First(e => e.VarName == "hhCentralCleanSCORE").Description;
 
             showForm((int)SurveyID);
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
 
             return View();
         }
@@ -271,6 +278,13 @@ namespace SWAT.Controllers
             ViewBag.Question10 = db.lkpswatscorevarslus.First(e => e.VarName == "hhCentralCleanSCORE").Description;
 
             showForm((int)tblswatsfcentral.SurveyID);
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfcentral.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
 
             return View(tblswatsfcentral);
         }
@@ -313,7 +327,13 @@ namespace SWAT.Controllers
             ViewBag.Question10 = db.lkpswatscorevarslus.First(e => e.VarName == "hhCentralCleanSCORE").Description;
 
             showForm((int)tblswatsfcentral.SurveyID);
-            
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfcentral.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfcentral);
         }
 
@@ -356,7 +376,13 @@ namespace SWAT.Controllers
             ViewBag.Question10 = db.lkpswatscorevarslus.First(e => e.VarName == "hhCentralCleanSCORE").Description;
 
             showForm((int)tblswatsfcentral.SurveyID);
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfcentral.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfcentral);
         }
 

@@ -1,0 +1,184 @@
+﻿<div class="progress" style="height:40px; background-color:#808080;">
+    @if (ViewBag.hasSection4 != null)
+    {
+    <div id="sec1" style="display: none;">
+        @if (ViewBag.currentSectionID == 1)
+        {
+            <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                <h5 style="padding-top:5px;">Background</h5>
+            </div>
+        }
+        else
+        {
+            <a href="/Location/Edit/@ViewBag.locID?uid=@ViewBag.uid&SurveyID=@ViewBag.SurveyID">
+                <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                    <h5 style="padding-top:5px;">Background</h5>
+                </div>
+            </a>
+        }
+    </div>
+    <div id="sec2" style="display: none;">
+        @if (ViewBag.currentSectionID == 2)
+        {
+            <div class="progress-bar" role="progressbar" style="width:30%; height:40px;">
+                <h5 style="padding-top:5px;">Water Availability</h5>
+            </div>
+        }
+        else
+        {
+            <a href="/WAPrecipitation/Edit/@ViewBag.waprecID?SurveyID=@ViewBag.SurveyID">
+                <div class="progress-bar" role="progressbar" style="width:30%; height:40px;">
+                    <h5 style="padding-top:5px;">Water Availability</h5>
+                </div>
+            </a>
+        }
+    </div>
+    <div id="sec3" style="display: none;">
+        @if (ViewBag.currentSectionID == 3)
+        {
+            <div class="progress-bar" role="progressbar" style="width:30%; height:40px;">
+                <h5 style="padding-top:5px;">Community Capacity</h5>
+            </div>
+        }
+        else
+        {
+            <a href="/CCEducation/Edit/@ViewBag.cceduID?SurveyID=@ViewBag.SurveyID">
+                <div class="progress-bar" role="progressbar" style="width:30%; height:40px;">
+                    <h5 style="padding-top:5px;">Community Capacity</h5>
+                </div>
+            </a>
+        }
+    </div>
+    <div id="sec4" style="display: none;">
+        @if (ViewBag.currentSectionID == 4)
+        {
+            <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                <h6>Source Water Risks and Protection</h6>
+            </div>
+        }
+        else
+        {
+            <a href="/">
+                <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                    <h6>Source Water Risks and Protection</h6>
+                </div>
+            </a>
+        }
+    </div>
+    <div id="sec5" style="display: none;">
+        @if (ViewBag.currentSectionID == 5)
+        {
+            <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                <h6>Health Protection and Promotion</h6>
+            </div>
+        }
+        else
+        {
+            <a href="/">
+                <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                    <h6>Health Protection and Promotion</h6>
+                </div>
+            </a>
+        }
+    </div>
+    <div id="sec6" style="display: none;">
+        @if (ViewBag.currentSectionID == 6)
+        {
+            <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                <h6>Sanitation Facilities</h6>
+            </div>
+        }
+        else
+        {
+            <a href="/">
+                <div class="progress-bar" role="progressbar" style="width:10%; height:40px;">
+                    <h6>Sanitation Facilities</h6>
+                </div>
+            </a>
+        }
+    </div>
+    }
+    else
+    {
+        <div id="sec1" style="display: none;">
+            @if (ViewBag.currentSectionID == 1)
+            {
+                <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                    <h5 style="padding-top:5px;">Background</h5>
+                </div>
+            }
+            else
+            {
+                <a href="/Location/Edit/@ViewBag.locID?uid=@ViewBag.uid&SurveyID=@ViewBag.SurveyID">
+                    <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                        <h5 style="padding-top:5px;">Background</h5>
+                    </div>
+                </a>
+            }
+        </div>
+        <div id="sec2" style="display: none;">
+           @if (ViewBag.currentSectionID == 2)
+           {
+            <div class="progress-bar" role="progressbar" style="width:32%; height:40px;">
+                <h5 style="padding-top:5px;">Water Availability</h5>
+            </div>
+           }
+           else
+           {
+            <a href="/WAPrecipitation/Edit/@ViewBag.waprecID?SurveyID=@ViewBag.SurveyID">
+                <div class="progress-bar" role="progressbar" style="width:32%; height:40px;">
+                    <h5 style="padding-top:5px;">Water Availability</h5>
+                </div>
+            </a>
+           }
+        </div>
+        <div id="sec3" style="display: none;">
+            @if (ViewBag.currentSectionID == 3)
+            {
+                <div class="progress-bar" role="progressbar" style="width:32%; height:40px;">
+                    <h5 style="padding-top:5px;">Community Capacity</h5>
+                </div>
+            }
+            else
+            {
+                <a href="/CCEducation/Edit/@ViewBag.cceduID?SurveyID=@ViewBag.SurveyID">
+                    <div class="progress-bar" role="progressbar" style="width:32%; height:40px;">
+                        <h5 style="padding-top:5px;">Community Capacity</h5>
+                    </div>
+                </a>
+            }
+        </div>
+        <div id="sec5" style="display: none;">
+            @if (ViewBag.currentSectionID == 5)
+            {
+                <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                    <h6>Health Protection and Promotion</h6>
+                </div>
+            }
+            else
+            {
+                <a href="/">
+                    <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                        <h6>Health Protection and Promotion</h6>
+                    </div>
+                </a>
+            }
+        </div>
+        <div id="sec6" style="display: none;">
+            @if (ViewBag.currentSectionID == 6)
+            {
+                <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                    <h6>Sanitation Facilities</h6>
+                </div>
+            }
+            else
+            {
+                <a href="/">
+                    <div class="progress-bar" role="progressbar" style="width:12%; height:40px;">
+                        <h6>Sanitation Facilities</h6>
+                    </div>
+                </a>
+            }
+        </div>
+    }
+</div>

@@ -43,6 +43,10 @@ namespace SWAT.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -113,6 +117,10 @@ namespace SWAT.Controllers
             }
 
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwaprecipitation.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwaprecipitation.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwaprecipitation);
         }
 
@@ -129,6 +137,11 @@ namespace SWAT.Controllers
                 return HttpNotFound();
             }
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
+                
             return View(tblswatwaprecipitation);
         }
 
@@ -166,6 +179,10 @@ namespace SWAT.Controllers
                 }
             }
             ViewBag.hasData = new SelectList(db.lkpswatwaprecipitations, "id", "Description", tblswatwaprecipitation.hasData);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwaprecipitation.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwaprecipitation.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwaprecipitation);
         }
 

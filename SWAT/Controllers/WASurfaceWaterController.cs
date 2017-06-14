@@ -46,6 +46,10 @@ namespace SWAT.Controllers
 
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description");
             ViewBag.surfaceVar = new SelectList(db.lkpswatsurfacevarlus, "id", "Description");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -107,6 +111,10 @@ namespace SWAT.Controllers
 
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description", tblswatwasurfacewater.runoff);
             ViewBag.surfaceVar = new SelectList(db.lkpswatsurfacevarlus, "id", "Description", tblswatwasurfacewater.surfaceVar);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwasurfacewater.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwasurfacewater.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwasurfacewater);
         }
 
@@ -124,6 +132,10 @@ namespace SWAT.Controllers
             }
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description", tblswatwasurfacewater.runoff);
             ViewBag.surfaceVar = new SelectList(db.lkpswatsurfacevarlus, "id", "Description", tblswatwasurfacewater.surfaceVar);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwasurfacewater);
         }
 
@@ -162,6 +174,10 @@ namespace SWAT.Controllers
             }
             ViewBag.runoff = new SelectList(db.lkpswatrunofflus, "ID", "Description", tblswatwasurfacewater.runoff);
             ViewBag.surfaceVar = new SelectList(db.lkpswatsurfacevarlus, "id", "Description", tblswatwasurfacewater.surfaceVar);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwasurfacewater.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwasurfacewater.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwasurfacewater);
         }
 

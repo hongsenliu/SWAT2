@@ -967,6 +967,7 @@
     <Content Include="Content\CommunityInfo.js" />
     <Content Include="Content\Copy of SurveyReport.js" />
     <Content Include="Content\Copy of WPReport.js" />
+    <Content Include="Content\gmaps.js" />
     <Content Include="Content\images\ajaxloader.gif" />
     <Content Include="Content\images\background.jpg" />
     <Content Include="Content\images\background.png" />
@@ -978,6 +979,7 @@
     <Content Include="Content\map.js" />
     <Content Include="Content\mapCheck.js" />
     <Content Include="Content\PagedList.css" />
+    <Content Include="Content\SectionProgressBar.js" />
     <Content Include="Content\session.js" />
     <Content Include="Content\SFCentral.js" />
     <Content Include="Content\SFLat.js" />
@@ -1279,6 +1281,7 @@
     <None Include="Properties\PublishProfiles\CustomProfile1.pubxml" />
     <None Include="Properties\PublishProfiles\swat.pubxml" />
     <None Include="Properties\PublishProfiles\swat2.pubxml" />
+    <Content Include="Views\Shared\_SurveyProgressBarPartial.cshtml" />
     <None Include="_bin_deployableAssemblies\x86\sqlcese40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceqp40.dll" />
     <None Include="_bin_deployableAssemblies\x86\sqlceme40.dll" />

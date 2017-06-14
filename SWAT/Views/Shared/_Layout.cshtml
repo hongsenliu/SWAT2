@@ -4,10 +4,25 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - SWAT</title>
-    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <link href="~/Content/bootstrap.css" rel="stylesheet" type="text/css" />
+    <link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
     <script src="~/Scripts/modernizr-2.8.3.js"></script>
     <script src="~/Scripts/jquery-3.1.1.min.js"></script>
+    <script src="~/Content/SectionProgressBar.js"></script>
+    @if (ViewBag.currentSectionID == null)
+    {
+        <script type="text/javascript">
+        var hasSection4 = '@ViewBag.hasSection4';
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            var currentSectionID = @ViewBag.currentSectionID;
+            var hasSection4 = '@ViewBag.hasSection4';
+        </script>
+    }
+
     @RenderSection("Scripts",false/*required*/)
 </head>
 <body>

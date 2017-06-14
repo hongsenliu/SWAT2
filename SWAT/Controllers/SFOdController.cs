@@ -51,7 +51,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "ODPercentSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemoGenderSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "ODfacilitatorSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View();
         }
 
@@ -230,7 +236,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "ODPercentSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemoGenderSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "ODfacilitatorSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfod.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfod);
         }
 
@@ -254,7 +266,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "ODPercentSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemoGenderSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "ODfacilitatorSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfod.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfod);
         }
 
@@ -295,7 +313,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "ODPercentSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "ODdemoGenderSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "ODfacilitatorSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfod.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfod);
         }
 

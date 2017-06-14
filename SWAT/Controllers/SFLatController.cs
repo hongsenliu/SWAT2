@@ -103,7 +103,13 @@ namespace SWAT.Controllers
             getQuestions();
 
             showForm((int)SurveyID);
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View();
         }
 
@@ -283,7 +289,13 @@ namespace SWAT.Controllers
             getQuestions();
 
             showForm(tblswatsflat.SurveyID);
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsflat.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsflat);
         }
 
@@ -314,7 +326,13 @@ namespace SWAT.Controllers
             getQuestions();
 
             showForm((int)SurveyID);
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsflat.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsflat);
         }
 
@@ -346,7 +364,13 @@ namespace SWAT.Controllers
             getQuestions();
 
             showForm(tblswatsflat.SurveyID);
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsflat.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsflat);
         }
 

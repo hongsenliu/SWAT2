@@ -46,6 +46,11 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "longtermPopSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -164,6 +169,11 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "longtermPopSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatccindig.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatccindig.SurveyID).ID;
+            ViewBag.SurveyID = tblswatccindig.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccindig);
         }
 
@@ -181,6 +191,11 @@ namespace SWAT.Controllers
             }
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "longtermPopSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatccindig.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatccindig.SurveyID).ID;
+            ViewBag.SurveyID = tblswatccindig.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccindig);
         }
 
@@ -220,6 +235,11 @@ namespace SWAT.Controllers
             }
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "indigPopSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "longtermPopSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatccindig.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatccindig.SurveyID).ID;
+            ViewBag.SurveyID = tblswatccindig.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccindig);
         }
 

@@ -43,7 +43,7 @@ namespace SWAT.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-
+            ViewBag.currentSectionID = 2;
             return View();
         }
 
@@ -97,7 +97,7 @@ namespace SWAT.Controllers
                     return RedirectToAction("Create", "WAExtremeEvent", new { SurveyID = tblswatwaclimatechange.SurveyID });
                 }
             }
-
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaclimatechange);
         }
 
@@ -113,6 +113,7 @@ namespace SWAT.Controllers
             {
                 return HttpNotFound();
             }
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaclimatechange);
         }
 
@@ -149,6 +150,7 @@ namespace SWAT.Controllers
 
                 }
             }
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaclimatechange);
         }
 

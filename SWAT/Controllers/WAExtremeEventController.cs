@@ -47,6 +47,10 @@ namespace SWAT.Controllers
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description");
             ViewBag.extremeFlood = new SelectList(db.lkpswatextremeeventslus, "id", "Description");
             ViewBag.extremeOther = new SelectList(db.lkpswatextremeeventslus, "id", "Description");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -129,6 +133,10 @@ namespace SWAT.Controllers
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeDry);
             ViewBag.extremeFlood = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeFlood);
             ViewBag.extremeOther = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeOther);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwaextremeevent.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwaextremeevent.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwaextremeevent);
         }
 
@@ -147,6 +155,10 @@ namespace SWAT.Controllers
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeDry);
             ViewBag.extremeFlood = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeFlood);
             ViewBag.extremeOther = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeOther);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwaextremeevent);
         }
 
@@ -194,6 +206,10 @@ namespace SWAT.Controllers
             ViewBag.extremeDry = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeDry);
             ViewBag.extremeFlood = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeFlood);
             ViewBag.extremeOther = new SelectList(db.lkpswatextremeeventslus, "id", "Description", tblswatwaextremeevent.extremeOther);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwaextremeevent.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwaextremeevent.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwaextremeevent);
         }
 

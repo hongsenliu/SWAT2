@@ -52,6 +52,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "promotionSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "handWashSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "childFaecesSCORE").Description;
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
 
             return View();
         }
@@ -241,6 +248,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "promotionSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "handWashSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "childFaecesSCORE").Description;
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswathppkhp.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
 
             return View(tblswathppkhp);
         }
@@ -266,6 +280,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "promotionSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "handWashSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "childFaecesSCORE").Description;
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
 
             return View(tblswathppkhp);
         }
@@ -308,6 +329,13 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "promotionSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "handWashSCORE").Description;
             ViewBag.Question5 = db.lkpswatscorevarslus.First(e => e.VarName == "childFaecesSCORE").Description;
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswathppkhp.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
 
             return View(tblswathppkhp);
         }

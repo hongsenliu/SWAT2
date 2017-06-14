@@ -45,6 +45,7 @@ namespace SWAT.Controllers
             }
 
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description");
+            ViewBag.currentSectionID = 2;
             return View();
         }
 
@@ -134,6 +135,7 @@ namespace SWAT.Controllers
 
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description", tblswatwaannualprecip.precipVarALT);
             //ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwaannualprecip.SurveyID);
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaannualprecip);
         }
 
@@ -150,7 +152,8 @@ namespace SWAT.Controllers
                 return HttpNotFound();
             }
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description", tblswatwaannualprecip.precipVarALT);
-           // ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwaannualprecip.SurveyID);
+            // ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwaannualprecip.SurveyID);
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaannualprecip);
         }
 
@@ -190,6 +193,7 @@ namespace SWAT.Controllers
             }
             ViewBag.precipVarALT = new SelectList(db.lkpswatprecipvaraltlus, "id", "Description", tblswatwaannualprecip.precipVarALT);
             ViewBag.SurveyID = new SelectList(db.tblswatsurveys, "ID", "ID", tblswatwaannualprecip.SurveyID);
+            ViewBag.currentSectionID = 2;
             return View(tblswatwaannualprecip);
         }
 

@@ -47,6 +47,11 @@ namespace SWAT.Controllers
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -99,6 +104,11 @@ namespace SWAT.Controllers
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatcccom.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatcccom.SurveyID).ID;
+            ViewBag.SurveyID = tblswatcccom.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcccom);
         }
 
@@ -118,6 +128,11 @@ namespace SWAT.Controllers
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcccom);
         }
 
@@ -154,6 +169,11 @@ namespace SWAT.Controllers
             }
 
             ViewBag.Question = db.lkpswatscorevarslus.Single(e => e.VarName == "comResourcesSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatcccom.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatcccom.SurveyID).ID;
+            ViewBag.SurveyID = tblswatcccom.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatcccom);
         }
 

@@ -68,13 +68,34 @@ namespace SWAT.Controllers
         }
 
         // GET: /Location/Create
-        public ActionResult Create(int? uid)
+        public ActionResult Create(int? uid, int? locationId, int? SurveyID)
         {
-            ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name");
-            ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name");
-            ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name");
-            ViewBag.uid = uid;
-            return View();
+            ViewBag.currentSectionID = 1;
+            if (locationId == null)
+            {
+                ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name");
+                ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name");
+                ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name");
+                ViewBag.uid = uid;
+                return View();
+            }
+            else
+            {
+                tblswatlocation tblswatlocation = db.tblswatlocations.Find(locationId);
+                if (tblswatlocation == null)
+                {
+                    return HttpNotFound();
+                }
+
+                ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name", tblswatlocation.countryID);
+                ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name", tblswatlocation.regionID);
+                ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name", tblswatlocation.subnationalID);
+                ViewBag.uid = uid;
+                ViewBag.SurveyID = SurveyID;
+                
+                
+                return View(tblswatlocation);
+            }
         }
 
         // POST: /Location/Create
@@ -82,20 +103,32 @@ namespace SWAT.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid, string submitBtn)
+        public ActionResult Create([Bind(Include="ID,latitude,longitude,countryID,name,regionID,subnationalID")] tblswatlocation tblswatlocation, int? uid, string submitBtn, int? SurveyID, int? locationId)
         {
             if (ModelState.IsValid)
             {
-                db.tblswatlocations.Add(tblswatlocation);
+                
+                if (locationId == null)
+                {
+
+                    db.tblswatlocations.Add(tblswatlocation);
+                }
+                else
+                {
+                    tblswatlocation.ID = locationId.GetValueOrDefault();
+                    db.Entry(tblswatlocation).State = EntityState.Modified;
+                }
+                
                 db.SaveChanges();
                 //var LocationID = tblswatlocation.ID;
                 
-                return RedirectToAction("Create", "Survey", new { UserID = uid, LocationID = tblswatlocation.ID, submitBtn = submitBtn});
+                return RedirectToAction("Create", "Survey", new { UserID = uid, LocationID = tblswatlocation.ID, submitBtn = submitBtn, SurveyID = SurveyID});
             }
 
             ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name", tblswatlocation.countryID);
             ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name", tblswatlocation.regionID);
             ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name", tblswatlocation.subnationalID);
+            ViewBag.currentSectionID = 1;
             return View(tblswatlocation);
         }
 
@@ -118,6 +151,8 @@ namespace SWAT.Controllers
             ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name", tblswatlocation.subnationalID);
             ViewBag.uid = uid;
             ViewBag.SurveyID = SurveyID;
+            ViewBag.currentSectionID = 1;
+            ViewBag.locID = id;
             return View(tblswatlocation);
         }
 
@@ -154,6 +189,7 @@ namespace SWAT.Controllers
             ViewBag.countryID = new SelectList(db.lkpcountries, "ID", "Name", tblswatlocation.countryID);
             ViewBag.regionID = new SelectList(db.lkpregions, "ID", "Name", tblswatlocation.regionID);
             ViewBag.subnationalID = new SelectList(db.lkpsubnationals, "ID", "Name", tblswatlocation.subnationalID);
+            ViewBag.currentSectionID = 1;
             return View(tblswatlocation);
         }
 

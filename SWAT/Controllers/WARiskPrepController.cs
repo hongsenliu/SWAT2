@@ -50,6 +50,10 @@ namespace SWAT.Controllers
             ViewBag.riskFire = new SelectList(db.lkpswatextremerisklus, "id", "Description");
             ViewBag.riskFlood = new SelectList(db.lkpswatextremerisklus, "id", "Description");
             ViewBag.riskDrought = new SelectList(db.lkpswatextremerisklus, "id", "Description");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -158,6 +162,10 @@ namespace SWAT.Controllers
             ViewBag.riskFire = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFire);
             ViewBag.riskFlood = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFlood);
             ViewBag.riskDrought = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskDrought);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwariskprep.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwariskprep.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwariskprep);
         }
 
@@ -179,6 +187,10 @@ namespace SWAT.Controllers
             ViewBag.riskFire = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFire);
             ViewBag.riskFlood = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFlood);
             ViewBag.riskDrought = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskDrought);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwariskprep);
         }
 
@@ -221,6 +233,10 @@ namespace SWAT.Controllers
             ViewBag.riskFire = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFire);
             ViewBag.riskFlood = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskFlood);
             ViewBag.riskDrought = new SelectList(db.lkpswatextremerisklus, "id", "Description", tblswatwariskprep.riskDrought);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwariskprep.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwariskprep.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwariskprep);
         }
 

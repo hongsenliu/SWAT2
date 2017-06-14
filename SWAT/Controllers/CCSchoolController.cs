@@ -48,6 +48,11 @@ namespace SWAT.Controllers
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolAttendSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolInstitutionSCORE").Description;
             ViewBag.Question3 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolHHAccessSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -123,6 +128,11 @@ namespace SWAT.Controllers
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolAttendSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolInstitutionSCORE").Description;
             ViewBag.Question3 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolHHAccessSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatccschool.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatccschool.SurveyID).ID;
+            ViewBag.SurveyID = tblswatccschool.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccschool);
         }
 
@@ -142,6 +152,11 @@ namespace SWAT.Controllers
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolAttendSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolInstitutionSCORE").Description;
             ViewBag.Question3 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolHHAccessSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == SurveyID).ID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccschool);
         }
 
@@ -182,6 +197,11 @@ namespace SWAT.Controllers
             ViewBag.Question1 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolAttendSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolInstitutionSCORE").Description;
             ViewBag.Question3 = db.lkpswatscorevarslus.Single(e => e.VarName == "schoolHHAccessSCORE").Description;
+            ViewBag.currentSectionID = 3;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatccschool.SurveyID).LocationID;
+            ViewBag.waprecID = db.tblswatwaprecipitations.First(e => e.SurveyID == tblswatccschool.SurveyID).ID;
+            ViewBag.SurveyID = tblswatccschool.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatccschool);
         }
 

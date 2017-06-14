@@ -49,7 +49,13 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletsAllSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletDistancesSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View();
         }
 
@@ -155,7 +161,7 @@ namespace SWAT.Controllers
 
         private void deleteSFod(tblswatsfsanitation tblswatsfsanitation)
         {
-            var sfOds = db.tblswatsfods.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID);
+            var sfOds = db.tblswatsfods.Where(e => e.SurveyID == tblswatsfsanitation.SurveyID).ToList();
 
             foreach (tblswatsfod item in sfOds)
             {
@@ -206,7 +212,13 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletsAllSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletDistancesSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfsanitation.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfsanitation);
         }
 
@@ -228,7 +240,13 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletsAllSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletDistancesSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfsanitation);
         }
 
@@ -289,7 +307,13 @@ namespace SWAT.Controllers
 
             ViewBag.Question1 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletsAllSCORE").Description;
             ViewBag.Question2 = db.lkpswatscorevarslus.First(e => e.VarName == "toiletDistancesSCORE").Description;
-
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswatsfsanitation.SurveyID);
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 6;
             return View(tblswatsfsanitation);
         }
 

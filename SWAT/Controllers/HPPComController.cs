@@ -46,6 +46,14 @@ namespace SWAT.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            
             ViewBag.diarrhea = new SelectList(db.lkpswat5ranklu, "id", "Description");
             ViewBag.medicalCost = new SelectList(db.lkpswatmedicalcostlus, "id", "Description");
             ViewBag.medicalTime = new SelectList(db.lkpswatmedicaltimelus, "id", "Description");
@@ -55,7 +63,7 @@ namespace SWAT.Controllers
             ViewBag.Question2 = db.lkpswatscorevarslus.First(e => e.VarName == "survivorshipSCORE").Description;
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalTimeSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalCostSCORE").Description;
-
+            ViewBag.currentSectionID = 5;
             return View();
         }
 
@@ -147,6 +155,14 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalTimeSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalCostSCORE").Description;
 
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswathppcom.SurveyID);
+
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
             return View(tblswathppcom);
         }
 
@@ -174,6 +190,14 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalTimeSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalCostSCORE").Description;
 
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == SurveyID);
+
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
             return View(tblswathppcom);
         }
 
@@ -217,6 +241,14 @@ namespace SWAT.Controllers
             ViewBag.Question3 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalTimeSCORE").Description;
             ViewBag.Question4 = db.lkpswatscorevarslus.First(e => e.VarName == "medicalCostSCORE").Description;
 
+            tblswatbackgroundinfo bg = db.tblswatbackgroundinfoes.First(e => e.SurveyID == tblswathppcom.SurveyID);
+
+            int? ls = bg.isEconLs;
+            int? ag = bg.isEconAg;
+            int? dev = bg.isEconDev;
+            Boolean hasSection4 = true;
+            ViewBag.hasSection4 = hasSection4 && ((ls == 1511) || (ag == 1511) || (dev == 1511)) ? "true" : "false";
+            ViewBag.currentSectionID = 5;
             return View(tblswathppcom);
         }
 

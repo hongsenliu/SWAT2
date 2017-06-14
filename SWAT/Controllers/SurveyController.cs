@@ -1452,7 +1452,7 @@ namespace SWAT.Controllers
         //}
 
         // GET: /Survey/Create
-        public ActionResult Create(int UserID, int LocationID, string submitBtn)
+        public ActionResult Create(int UserID, int LocationID, string submitBtn, int? SurveyID)
         {
             // Create a survey record
             tblswatsurvey tblswatsurvey = new tblswatsurvey();
@@ -1463,32 +1463,35 @@ namespace SWAT.Controllers
             
             if (ModelState.IsValid)
             {
-                // Add and Save the survey record to database
-                db.tblswatsurveys.Add(tblswatsurvey);
-                db.SaveChanges();
-                // Get the id of tblswatsurvey record (new record)
-                var newSurveyID = tblswatsurvey.ID;
-                var scorevars = db.lkpswatscorevarslus.ToList();
-                foreach (var scorevar in scorevars)
+                if (SurveyID == null)
                 {
-                    tblswatscore tblswatscore = new tblswatscore();
-                    tblswatscore.SurveyID = newSurveyID;
-                    tblswatscore.VariableID = scorevar.ID;
-
-                    // For reference copy the score name from lkpswatscorevarslu table to tblSWATScore table varname field
-                    tblswatscore.VarName = scorevar.VarName;
-
-                    if (ModelState.IsValid)
+                    // Add and Save the survey record to database
+                    db.tblswatsurveys.Add(tblswatsurvey);
+                    db.SaveChanges();
+                    // Get the id of tblswatsurvey record (new record)
+                    SurveyID = tblswatsurvey.ID;
+                    var scorevars = db.lkpswatscorevarslus.ToList();
+                    foreach (var scorevar in scorevars)
                     {
-                        db.tblswatscores.Add(tblswatscore);
-                        db.SaveChanges();
+                        tblswatscore tblswatscore = new tblswatscore();
+                        tblswatscore.SurveyID = SurveyID.GetValueOrDefault();
+                        tblswatscore.VariableID = scorevar.ID;
+
+                        // For reference copy the score name from lkpswatscorevarslu table to tblSWATScore table varname field
+                        tblswatscore.VarName = scorevar.VarName;
+
+                        if (ModelState.IsValid)
+                        {
+                            db.tblswatscores.Add(tblswatscore);
+                            db.SaveChanges();
+                        }
                     }
                 }
                 if (submitBtn.Equals("Next"))
                 {
-                    return RedirectToAction("Create", "Background", new { SurveyID = newSurveyID });
+                    return RedirectToAction("Create", "Background", new { SurveyID = SurveyID });
                 }
-                return RedirectToAction("Edit", "Location", new { id = LocationID, uid = UserID, SurveyID = newSurveyID });
+                return RedirectToAction("Create", "Location", new { locationId = LocationID, uid = UserID, SurveyID = SurveyID });
             }
 
             //ViewBag.LocationID = new SelectList(db.tblSWATLocations, "ID", "name");

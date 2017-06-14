@@ -57,6 +57,10 @@ namespace SWAT.Controllers
             ViewBag.June = new SelectList(db.lkpswatwatermonthlus, "id", "Description");
             ViewBag.July = new SelectList(db.lkpswatwatermonthlus, "id", "Description");
             //ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID");
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View();
         }
 
@@ -137,6 +141,10 @@ namespace SWAT.Controllers
             ViewBag.June = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.June);
             ViewBag.July = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.July);
             // ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwamonthlyquantity.SurveyID);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwamonthlyquantity.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwamonthlyquantity.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwamonthlyquantity);
         }
 
@@ -164,7 +172,11 @@ namespace SWAT.Controllers
             ViewBag.May = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.May);
             ViewBag.June = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.June);
             ViewBag.July = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.July);
-           // ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwamonthlyquantity.SurveyID);
+            // ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwamonthlyquantity.SurveyID);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(SurveyID).LocationID;
+            ViewBag.SurveyID = SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwamonthlyquantity);
         }
 
@@ -213,7 +225,11 @@ namespace SWAT.Controllers
             ViewBag.May = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.May);
             ViewBag.June = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.June);
             ViewBag.July = new SelectList(db.lkpswatwatermonthlus, "id", "Description", tblswatwamonthlyquantity.July);
-          //  ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwamonthlyquantity.SurveyID);
+            //  ViewBag.SurveyID = new SelectList(db.tblSWATSurveys, "ID", "ID", tblswatwamonthlyquantity.SurveyID);
+            ViewBag.currentSectionID = 2;
+            ViewBag.locID = db.tblswatsurveys.Find(tblswatwamonthlyquantity.SurveyID).LocationID;
+            ViewBag.SurveyID = tblswatwamonthlyquantity.SurveyID;
+            ViewBag.uid = 191;
             return View(tblswatwamonthlyquantity);
         }
 

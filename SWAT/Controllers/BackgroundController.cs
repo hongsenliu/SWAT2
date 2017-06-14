@@ -65,6 +65,7 @@ namespace SWAT.Controllers
             ViewBag.isEconLs = new SelectList(db.lkpswatyesnolus, "id", "Description");
             ViewBag.isEconDev = new SelectList(db.lkpswatyesnolus, "id", "Description");
             ViewBag.SurveyID = SurveyID;
+            ViewBag.currentSectionID = 1;
             return View();
         }
 
@@ -73,18 +74,19 @@ namespace SWAT.Controllers
             // TODO remove ls, ag and dev if there are some records and isEconls, isEconAg, isEcondev are not 1511
             if (tblswatbackgroundinfo.isEconLs != 1511)
             {
-                var livestocks = db.tblswatswpls.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var livestocks = db.tblswatswpls.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 foreach (tblswatswpl item in livestocks)
                 {
                     db.tblswatscores.First(e => e.SurveyID == tblswatbackgroundinfo.SurveyID && e.VarName == "livestockSCORE").Value = null;
                     db.tblswatscores.First(e => e.SurveyID == tblswatbackgroundinfo.SurveyID && e.VarName == "waterFencedSCORE").Value = null;
                     db.tblswatscores.First(e => e.SurveyID == tblswatbackgroundinfo.SurveyID && e.VarName == "livestockEffluentSCORE").Value = null;
+                    
                     db.tblswatswpls.Remove(item);
                 }
             }
             else
             { 
-                var livestocks = db.tblswatswpls.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var livestocks = db.tblswatswpls.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 if (!livestocks.Any())
                 {
                     tblswatswpl tblswatswpl = new tblswatswpl();
@@ -95,7 +97,7 @@ namespace SWAT.Controllers
 
             if (tblswatbackgroundinfo.isEconAg != 1511)
             {
-                var records = db.tblswatswpags.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var records = db.tblswatswpags.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 foreach (tblswatswpag item in records)
                 {
                     db.tblswatscores.First(e => e.SurveyID == tblswatbackgroundinfo.SurveyID && e.VarName == "agTypeSCORE").Value = null;
@@ -110,7 +112,7 @@ namespace SWAT.Controllers
             }
             else
             {
-                var ags = db.tblswatswpags.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var ags = db.tblswatswpags.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 if (!ags.Any())
                 {
                     tblswatswpag tblswatswpag = new tblswatswpag();
@@ -121,7 +123,7 @@ namespace SWAT.Controllers
 
             if (tblswatbackgroundinfo.isEconDev != 1511)
             {
-                var records = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var records = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 foreach (tblswatswpdev item in records)
                 {
                     db.tblswatscores.First(e => e.SurveyID == tblswatbackgroundinfo.SurveyID && e.VarName == "devSiteSCORE").Value = null;
@@ -132,7 +134,7 @@ namespace SWAT.Controllers
             }
             else
             {
-                var devs = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID);
+                var devs = db.tblswatswpdevs.Where(e => e.SurveyID == tblswatbackgroundinfo.SurveyID).ToList();
                 if (!devs.Any())
                 {
                     tblswatswpdev tblswatswpdev = new tblswatswpdev();
@@ -302,6 +304,7 @@ namespace SWAT.Controllers
             ViewBag.isEconLs = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconLs);
             ViewBag.isEconDev = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconDev);
             ViewBag.SurveyID = tblswatbackgroundinfo.SurveyID;
+            ViewBag.currentSectionID = 1;
             return View(tblswatbackgroundinfo);
         }
 
@@ -339,6 +342,7 @@ namespace SWAT.Controllers
             ViewBag.isEconLs = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconLs);
             ViewBag.isEconDev = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconDev);
             ViewBag.SurveyID = SurveyID;
+            ViewBag.currentSectionID = 1;
             return View(tblswatbackgroundinfo);
         }
 
@@ -415,6 +419,7 @@ namespace SWAT.Controllers
             ViewBag.isEconLs = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconLs);
             ViewBag.isEconDev = new SelectList(db.lkpswatyesnolus, "id", "Description", tblswatbackgroundinfo.isEconDev);
             ViewBag.SurveyID = tblswatbackgroundinfo.SurveyID;
+            ViewBag.currentSectionID = 1;
             return View(tblswatbackgroundinfo);
         }
 
